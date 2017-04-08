@@ -1,12 +1,17 @@
 .btn {
-  background: #3498db #efffff;
+  background: #34bae0 ;
   color: #ffffff;
-  font-size: 20px;
+  font-size: 14px;
   padding: 10px 20px 10px 20px;
-  text-decoration: none;
+  display: block;
 }
 
 .btn:hover {
-  background: #3cb0fd;
-  text-decoration: none;
+  cursor: pointer;
+}
+
+.prominent {
+  font-weight: bold;
+  font-size: 20px;
+  display: block
 }
