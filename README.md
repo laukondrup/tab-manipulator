@@ -7,9 +7,9 @@ My first chrome extension.
 Sort tabs
 
 - [x] By age
-- [ ] **Alphabetically**
+- [ ] **By URL**
 - [ ] By domain
-- [ ] By URL
+- [ ] By title
 
 
 ## Future features
