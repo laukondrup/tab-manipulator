@@ -10,7 +10,7 @@ My first chrome extension. The goal is to transition into being a full fledged t
 
 ## Next features
 
-- **Number of domain open**
+- Number of domain open
 - Automatically sort based on user-defined sort order
 - Extract domain
 - List tabs
@@ -38,6 +38,6 @@ My first chrome extension. The goal is to transition into being a full fledged t
 - Extension icon
 - Icon/images for buttons for faster recognition
 - Try popular tools (in branches)
-
-
-
+- Setup Chrome Web Store
+- Rename project
+- Prettier font
