@@ -1,5 +1,6 @@
 document.getElementById('sortByAge').onclick = sortByAge;
 document.getElementById('sortByUrl').onclick = sortByUrl;
+document.getElementById('mergeWindows').onclick = mergeWindows;
 // document.getElementById('sortByDomain').onclick = sortByDomain;
 
 function sortByAge(){
@@ -61,7 +62,7 @@ function sortByUrl(){
 // }
 
 function getDomain(url){
-    // A bit ugly code
+    // TODO A bit ugly code
     var splitUrl = url.split('//');
     if(splitUrl.length === 2){
         url = splitUrl[1];
@@ -76,5 +77,19 @@ function getDomain(url){
 }
 
 function print(input){
-    console.log(JSON.stringify(input, null, 2))
+    console.log(JSON.stringify(input, null, 2));
+}
+
+function mergeWindows(){
+    // TODO ugly code
+    chrome.tabs.query({active: true}, function(activeTabs){
+
+        chrome.tabs.query({currentWindow: false, pinned: false}, function(tabs){
+            tabIds = tabs.map(tab => tab.id);
+            chrome.tabs.move(tabIds, {windowId: activeTabs[0].windowId, index: -1});
+        });
+
+    });
+
+    
 }

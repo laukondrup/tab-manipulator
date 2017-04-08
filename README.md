@@ -1,21 +1,21 @@
 # tabSorter
 
-My first chrome extension.
+My first chrome extension. The goal is to transition into being a full fledged tab/bookmark manager.
 
 ## Features
 
 Sort tabs by
 
-- [x] Age
-- [x] URL
-- [ ] **Number of domain open**
+- [x] Sort tabs by age
+- [x] Sort tabs by URL
+- [x] Merge windows
 
 ## Next features
 
-The goal is to transition into being a full fledged tab/bookmark manager.
-
+- **Number of domain open**
 - Automatically sort based on user-defined sort order
 - Extract domain
+- List tabs
 
 ## Future features
 
@@ -35,6 +35,11 @@ The goal is to transition into being a full fledged tab/bookmark manager.
   - ...
 - _Launchy/Vimium like interface_
 
+### Planned non-functionality
+
+- Extension icon
+- Icon/images for buttons for faster recognition
+- Try popular tools (in branches)
 
 
 
