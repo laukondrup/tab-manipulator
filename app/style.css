@@ -1,24 +1,19 @@
-.container {
-  /*display: table;*/
-}
-
 a {
   text-decoration: none;
+  width: 150px;
 }
+
 .btn {
   background: #34bae0 ;
   color: #ffffff;
   font-size: 14px;
   padding: 10px 20px 10px 20px;
   display: block;
+  margin-top: 5px;
 }
 
 .btn:hover {
   cursor: pointer;
-}
-
-#sortByAge {
-  width: 150px;
 }
 
 .prominent {

@@ -4,16 +4,13 @@ My first chrome extension.
 
 ## To be implemented next
 
-Sort tabs
+Sort tabs by
 
-- [x] By age
-- [ ] **By URL**
-- [ ] By domain
-- [ ] By title
+- [x] Age
+- [x] URL
+- [ ] Domain
+- [ ] Title
+- [ ] Domain and title
 
-
-## Future features
-
-- Extract domain
 
 
