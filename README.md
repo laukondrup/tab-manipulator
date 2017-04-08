@@ -6,7 +6,7 @@ My first chrome extension.
 
 Sort tabs
 
-- [ ] Alphabetically
+- [ ] **Alphabetically**
 - [ ] By domain
 - [ ] By URL
 
