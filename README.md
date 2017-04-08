@@ -12,7 +12,7 @@ Sort tabs by
 
 ## Next features
 
-The goal is to transition into a tab/bookmark manager.
+The goal is to transition into being a full fledged tab/bookmark manager.
 
 - Automatically sort based on user-defined sort order
 - Extract domain
@@ -28,6 +28,12 @@ The goal is to transition into a tab/bookmark manager.
   - Easy window management
 - _Synchronize open tabs on different devices_
 - __Bookmark features__
+- Open tab groups to pin
+- Keyboard shortcuts
+  - Toggle pin tab
+  - Duplicate tab (open in background)
+  - ...
+- _Launchy/Vimium like interface_
 
 
 
