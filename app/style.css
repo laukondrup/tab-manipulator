@@ -1,12 +1,12 @@
 a {
   text-decoration: none;
-  width: 150px;
+  width: 130px;
 }
 
 .btn {
-  background: #34bae0 ;
+  background: #007acc;
   color: #ffffff;
-  font-size: 14px;
+  font-size: 1.28em;
   padding: 10px 20px 10px 20px;
   display: block;
   margin-top: 5px;
@@ -15,6 +15,17 @@ a {
 .btn:hover {
   cursor: pointer;
 }
+
+#sortByUrl {
+    background: #82add0;
+}
+
+
+#mergeWindows {
+    background: #22b086;
+}
+
+
 
 .prominent {
   font-weight: bold;
