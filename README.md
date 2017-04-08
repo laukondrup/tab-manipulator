@@ -6,12 +6,12 @@ My first chrome extension.
 
 Sort tabs
 
-[ ] Alphabetically
-[ ] By domain
-[ ] By URL
+- [ ] Alphabetically
+- [ ] By domain
+- [ ] By URL
 
 ## Future features
 
-* Extract domain
+- Extract domain
 
 
