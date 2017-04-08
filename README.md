@@ -2,9 +2,7 @@
 
 My first chrome extension. The goal is to transition into being a full fledged tab/bookmark manager.
 
-## Features
-
-Sort tabs by
+## Implemented features
 
 - [x] Sort tabs by age
 - [x] Sort tabs by URL
