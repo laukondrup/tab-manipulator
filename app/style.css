@@ -1,3 +1,10 @@
+.container {
+  /*display: table;*/
+}
+
+a {
+  text-decoration: none;
+}
 .btn {
   background: #34bae0 ;
   color: #ffffff;
@@ -10,8 +17,11 @@
   cursor: pointer;
 }
 
+#sortByAge {
+  width: 150px;
+}
+
 .prominent {
   font-weight: bold;
   font-size: 20px;
-  display: block
 }
