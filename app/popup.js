@@ -1,5 +1,6 @@
 document.getElementById('sortByAge').onclick = sortByAge;
 document.getElementById('sortByUrl').onclick = sortByUrl;
+// document.getElementById('sortByDomain').onclick = sortByDomain;
 
 function sortByAge(){
    
@@ -21,12 +22,12 @@ function sortByAge(){
 
 function sortByUrl(){
     chrome.tabs.query({currentWindow: true, pinned: false}, function(tabs){
-
-        var consoleTabs = tabs.map(function(tab){
-            return {id: tab.id, url: tab.url};
+        tabs.forEach(function(tab){
+            tab.url = getDomain(tab.url);
         });
 
-        console.log(JSON.stringify(consoleTabs, null, 2));
+        print(tabs);
+
         tabs.sort(function(a, b){
             if(a.url > b.url){
                 return 1;
@@ -41,22 +42,39 @@ function sortByUrl(){
             return tab.id;
         });
 
-        console.log(tabs.map(tab => tab.id));
         chrome.tabs.move(tabIds, {index: -1});
     });
 }
 
-function sortByDomain(){
-    chrome.tabs.query({currentWindow: true, pinned: false}, function(tabs){
-        tabs = tabs.forEach(function(tab){
-            tab.url = getDomain(tab.url);
+// function sortByDomain(){
+//     chrome.tabs.query({currentWindow: true, pinned: false}, function(tabs){
+//         tabs = tabs.forEach(function(tab){
+//             var domain = getDomain(tab.url);
+//             domain = domain.split('/');
+//             if (domain.length > 1){
+//                 domain = domain[0];
+//             }
+//         });
 
-        });
-    });
-}
+//         tabs.sort()
+//     });
+// }
 
 function getDomain(url){
-    var s = domain.split('.');
-return s.slice(-2).join('.');
+    // A bit ugly code
+    var splitUrl = url.split('//');
+    if(splitUrl.length === 2){
+        url = splitUrl[1];
+    } 
 
+    splitUrl = url.split('www.');
+    if(splitUrl.length === 2){
+        url = splitUrl[1];
+    } 
+
+    return url;
+}
+
+function print(input){
+    console.log(JSON.stringify(input, null, 2))
 }
