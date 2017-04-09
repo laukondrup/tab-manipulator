@@ -1,18 +1,4 @@
-chrome.runtime.onMessage.addListener(handleMessage);
 
-function handleMessage(message, sender) {
-    var action = message.action;
-    var args = message.args;
-    // console.log(action, '(', args, ')');
-    switch (action) {
-        case 'sort':
-            sortByMode.apply(document, args);
-            break;
-        default:
-            console.log('Unhandled message:', message);
-            break;
-    }
-}
 
 function sortByAge(){
    
@@ -146,3 +132,31 @@ function extractDomain() {
     });
 }
 
+function handleMessage(message, sender) {
+    var action = message.action;
+    var args = message.args;
+    console.log(action, '(', args, ')');
+    switch (action) {
+        // TODO do better
+        case 'sortByAge':
+            sortByAge();
+            break;
+        case 'sortByUrl':
+            sortByUrl();
+            break;
+        case 'mergeWindows':
+            mergeWindows();
+            break;
+        case 'extractDomain':
+            extractDomain();
+            break;
+        case 'sortByDomain':
+            sortByDomain();
+            break;
+        default:
+            console.log('Unhandled message:', message);
+            break;
+    }
+}
+
+chrome.runtime.onMessage.addListener(handleMessage);
