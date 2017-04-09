@@ -4,12 +4,11 @@ My first chrome extension. The goal is to transition into being a full fledged t
 
 ## Implemented features
 
-- [x] Sort tabs by age
-- [x] Sort tabs by URL
+- [x] Sort tabs by age > <kbd>a</kbd>
+- [x] Sort tabs by URL > <kbd>u</kbd>
 - [x] Merge windows
 
 ## Next features
-
 
 - List tabs
   - **Drag tab from one window to another**
@@ -54,3 +53,4 @@ My first chrome extension. The goal is to transition into being a full fledged t
 - Prettier font
 - Consider splitting the extension up in modules or seperate extensions
 - Polish styling
+- Hover question mark that shows keyboard shortcuts

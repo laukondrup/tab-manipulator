@@ -52,15 +52,7 @@ function sortByDomain(){
         var frequency = {};
 
         tabs.forEach(function(tab){
-            var domain = getDomain(tab.url);
-            domain = domain.split('.');
-            if (domain.length > 1){
-                tab.domain = domain[0];
-            }
-            else {
-                tab.domain = domain;
-            }
-
+            tab.domain = getBaseUrl(tab.url);
             frequency[tab.domain] = 0;
         });
 
@@ -74,6 +66,25 @@ function sortByDomain(){
     });
 }
 
+function getBaseUrl(url){
+    url = getDomain(url).split('.');
+    // domain = domain;
+    // example.com
+    if (domain.length === 2){
+        return domain[0];
+    }
+    // help.github.com
+    else if (domain.length === 3){
+        return domain[1];
+    }
+    else {
+        return domain;
+    }
+}
+
+/**
+ * Returns the URL with http(s):// removed
+ */
 function getDomain(url){
 
     var splitUrl = url.split('//');
@@ -115,3 +126,14 @@ function extractDomain(){
 
     });
 }
+
+window.onkeyup = function(e){
+    if(e.shiftKey || e.ctrlKey){ return; } 
+        
+    if(e.key === "a"){
+        sortByAge();
+    }
+    else if(e.key === "u"){
+        sortByUrl();
+    }
+};
