@@ -10,13 +10,15 @@ My first chrome extension. The goal is to transition into being a full fledged t
 
 ## Next features
 
-- Number of domain open
-- Automatically sort based on user-defined sort order
-- Extract domain
+
 - List tabs
+  - **Drag tab from one window to another**
 
 ## Future features
 
+- Number of domain open
+- Extract domain
+- Automatically sort based on user-defined sort order
 - Bookmarks stacks, think OneTab
 - Vertical tab-layout
   - Drag and drop sort
@@ -32,6 +34,8 @@ My first chrome extension. The goal is to transition into being a full fledged t
   - Duplicate tab (open in background)
   - ...
 - _Launchy/Vimium like interface_
+- User-defined sort based on regex matching urls and assigning letters to them, like TabGrouper used to do
+- Rename current tab in window (rename or prefix). ie. to indicate [DEV] window or [Study] window etc.
 
 ### Planned non-functionality
 
