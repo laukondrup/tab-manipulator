@@ -16,7 +16,6 @@ function sendMessage(message){
 // TODO do better
 document.getElementById('sortByAge').onclick = function(){
     sendMessage('sortByAge');
-
 };
 
 document.getElementById('sortByUrl').onclick = function(){

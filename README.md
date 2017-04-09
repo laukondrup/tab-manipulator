@@ -14,7 +14,6 @@ My first chrome extension. The goal is to transition into being a full fledged t
 - Message passing, why is it needed?
 - List tabs
   - Drag tab from one window to another
-  
 
 ## Future features
 
@@ -47,7 +46,6 @@ My first chrome extension. The goal is to transition into being a full fledged t
 - Move active tab group one group to the left/right
 - Custom sort pinned tabs
 
-
 ### Planned non-functionality
 
 - Find a way to speedup Code -> Reload -> Inspect
@@ -72,7 +70,21 @@ My first chrome extension. The goal is to transition into being a full fledged t
 var currentTab = activeTabs[0];
 ```
 
-Is not neccesarily the currentTab
-
-- Extension loads slowly?
+- Is not neccesarily the currentTab
 - `chrome.tabs.move` does not remember pinned state
+
+## Commit message prefix
+
+_Taken from Angular contributing file._
+Must be one of the following:
+
+- **feat**: A new feature
+- **fix**: A bug fix
+- **docs**: Documentation only changes
+- **style**: Changes that do not affect the meaning of the code (white-space, formatting, missing
+- semi-colons, etc)
+- **refactor**: A code change that neither fixes a bug nor adds a feature
+- **perf**: A code change that improves performance
+- **test**: Adding missing or correcting existing tests
+- **chore**: Changes to the build process or auxiliary tools and libraries such as documentation
+  generation
