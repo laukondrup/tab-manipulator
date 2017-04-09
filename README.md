@@ -1,6 +1,6 @@
 # tabSorter
 
-My first chrome extension. The goal is to transition into being a full fledged tab/bookmark manager.
+My first chrome extension. The goal is to transition into being a full fledged tab/bookmark manager. Yet another tab manager huh.. How is this one any different from the other 1000?
 
 ## Implemented features
 
@@ -19,7 +19,8 @@ My first chrome extension. The goal is to transition into being a full fledged t
 
 - Number of domain open
 - Automatically sort based on user-defined sort order
-- Bookmarks stacks, think OneTab
+- Bookmarks folder stacks, think OneTab
+  - Workflow: switch device? Create stack that will close and bookmark and tabs into user-defined-folder/date|user-defined-title. Date prefix recommended for sorting purposes
 - Vertical tab-layout
   - Drag and drop sort
   - Search tabs (url, title)
@@ -28,6 +29,9 @@ My first chrome extension. The goal is to transition into being a full fledged t
   - Easy window management
 - _Synchronize open tabs on different devices_
 - __Bookmark features__
+  - Sort bookmarks
+    - Age
+    - URL
 - Open tab groups to pin
 - Keyboard shortcuts
   - Toggle pin tab
@@ -36,7 +40,8 @@ My first chrome extension. The goal is to transition into being a full fledged t
 - _Launchy/Vimium like interface_
 - User-defined sort based on regex matching urls and assigning letters to them, like TabGrouper used to do
 - Rename current tab in window (rename or prefix). ie. to indicate [DEV] window or [Study] window etc. (assign string to windowId)
-- Disable `ctrl+W pinned tab`
+- Disable ctrl+W for pinned tabs
+- Undo last action
 
 ### Planned non-functionality
 
