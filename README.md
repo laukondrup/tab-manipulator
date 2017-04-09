@@ -10,8 +10,9 @@ My first chrome extension. The goal is to transition into being a full fledged t
 
 ## Next features
 
+- Message passing, why is it needed?
 - List tabs
-  - **Drag tab from one window to another**
+  - Drag tab from one window to another
   - Extract domain
 
 ## Future features
