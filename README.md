@@ -41,6 +41,8 @@ My first chrome extension. The goal is to transition into being a full fledged t
 - Rename current tab in window (rename or prefix). ie. to indicate [DEV] window or [Study] window etc. (assign string to windowId)
 - Disable ctrl+W for pinned tabs
 - Undo last action
+- Move active tab group one group to the left/right
+- Custom sort pinned tabs
 
 ### Planned non-functionality
 
@@ -54,3 +56,5 @@ My first chrome extension. The goal is to transition into being a full fledged t
 - Consider splitting the extension up in modules or seperate extensions
 - Polish styling
 - Hover question mark that shows keyboard shortcuts
+- Figure out how to get Chrome IntelliSense in VSCode (intellisense file)
+- Make README user-friendly with pretty badges and stuff :-)

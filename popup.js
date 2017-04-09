@@ -117,11 +117,16 @@ function mergeWindows(){
 
 function extractDomain(){
     chrome.tabs.query({active: true}, function(activeTabs){
-
-        chrome.windows.create({focused: true}, function(newWindow){
+        var currentTab = activeTabs[0];
+        var wasTabPinned = currentTab.pinned;
+        // TODO focused
+        chrome.windows.create({tabId: currentTab.id, focused: false}, function(newWindow){
             // TODO if first extracted tab was pinned, re-pin it OR create window first, 
             // then move, but then harder to focus window and know the active tab
             console.log('Hello World');
+
+
+            chrome.tabs.update(currentTab.id, {pinned: wasTabPinned});
         });
 
     });
