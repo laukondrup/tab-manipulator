@@ -13,11 +13,11 @@ My first chrome extension. The goal is to transition into being a full fledged t
 
 - List tabs
   - **Drag tab from one window to another**
+  - Extract domain
 
 ## Future features
 
 - Number of domain open
-- Extract domain
 - Automatically sort based on user-defined sort order
 - Bookmarks stacks, think OneTab
 - Vertical tab-layout
@@ -35,13 +35,17 @@ My first chrome extension. The goal is to transition into being a full fledged t
   - ...
 - _Launchy/Vimium like interface_
 - User-defined sort based on regex matching urls and assigning letters to them, like TabGrouper used to do
-- Rename current tab in window (rename or prefix). ie. to indicate [DEV] window or [Study] window etc.
+- Rename current tab in window (rename or prefix). ie. to indicate [DEV] window or [Study] window etc. (assign string to windowId)
+- Disable `ctrl+W pinned tab`
 
 ### Planned non-functionality
 
+- Find a way to speedup Code -> Reload -> Inspect
 - Extension icon
 - Icon/images for buttons for faster recognition
 - Try popular tools (in branches)
 - Setup Chrome Web Store
 - Rename project
 - Prettier font
+- Consider splitting the extension up in modules or seperate extensions
+- Polish styling
