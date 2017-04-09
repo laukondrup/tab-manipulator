@@ -2,7 +2,7 @@ document.getElementById('sortByAge').onclick = sortByAge;
 document.getElementById('sortByUrl').onclick = sortByUrl;
 document.getElementById('mergeWindows').onclick = mergeWindows;
 document.getElementById('extractDomain').onclick = extractDomain;
-// document.getElementById('sortByDomain').onclick = sortByDomain;
+document.getElementById('sortByDomain').onclick = sortByDomain;
 
 function sortByAge(){
    
@@ -46,19 +46,33 @@ function sortByUrl(){
     });
 }
 
-// function sortByDomain(){
-//     chrome.tabs.query({currentWindow: true, pinned: false}, function(tabs){
-//         tabs = tabs.forEach(function(tab){
-//             var domain = getDomain(tab.url);
-//             domain = domain.split('/');
-//             if (domain.length > 1){
-//                 domain = domain[0];
-//             }
-//         });
+function sortByDomain(){
+    chrome.tabs.query({currentWindow: true, pinned: false}, function(tabs){
+        
+        var frequency = {};
 
-//         tabs.sort()
-//     });
-// }
+        tabs.forEach(function(tab){
+            var domain = getDomain(tab.url);
+            domain = domain.split('.');
+            if (domain.length > 1){
+                tab.domain = domain[0];
+            }
+            else {
+                tab.domain = domain;
+            }
+
+            frequency[tab.domain] = 0;
+        });
+
+        // How to keep tabId?
+        tabs.forEach(function(tab){
+            frequency[tab.domain]++;
+        });
+
+        printJson(frequency);
+        // tabs.sort()
+    });
+}
 
 function getDomain(url){
 
