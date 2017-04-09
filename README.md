@@ -62,6 +62,7 @@ My first chrome extension. The goal is to transition into being a full fledged t
 - Figure out how to get Chrome IntelliSense in VSCode (intellisense file)
 - Make README user-friendly with pretty badges and stuff :-)
 - License?
+- JavaScript whitespace convention?
 
 ## Issues
 
@@ -70,3 +71,6 @@ var currentTab = activeTabs[0];
 ```
 
 Is not neccesarily the currentTab
+
+- Extension loads slowly?
+- `chrome.tabs.move` does not remember pinned state
