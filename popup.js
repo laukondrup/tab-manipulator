@@ -68,17 +68,16 @@ function sortByDomain(){
 
 function getBaseUrl(url){
     url = getDomain(url).split('.');
-    // domain = domain;
     // example.com
-    if (domain.length === 2){
-        return domain[0];
+    if (url.length === 2){
+        return url[0];
     }
     // help.github.com
-    else if (domain.length === 3){
-        return domain[1];
+    else if (url.length === 3){
+        return url[1];
     }
     else {
-        return domain;
+        return url;
     }
 }
 
@@ -115,21 +114,41 @@ function mergeWindows(){
     });
 }
 
-function extractDomain(){
-    chrome.tabs.query({active: true}, function(activeTabs){
+function extractDomain() {
+    chrome.tabs.query({ active: true }, function (activeTabs) {
+     
         var currentTab = activeTabs[0];
-        var wasTabPinned = currentTab.pinned;
-        // TODO focused
-        chrome.windows.create({tabId: currentTab.id, focused: false}, function(newWindow){
-            // TODO if first extracted tab was pinned, re-pin it OR create window first, 
-            // then move, but then harder to focus window and know the active tab
-            console.log('Hello World');
+        var baseUrl = getBaseUrl(currentTab.url);
+        
+        // TODO state maximized bad code, rather get from currentWindow
+        chrome.windows.create({ tabId: currentTab.id, focused: true, state: "maximized" }, function(newWindow){
+            
+            // remove pinned
+            chrome.tabs.query({ currentWindow: false, pinned: false }, function (tabs) {
+                // TODO active tab, not [0]
 
+                
+                tabs.forEach(function(tab){
+                    if(baseUrl == getBaseUrl(tab.url)){
+                        chrome.tabs.move(tab.id, { windowId: newWindow.id, index: -1 });
+                    }
+                });  // .map(tab => tab.id)
 
-            chrome.tabs.update(currentTab.id, {pinned: wasTabPinned});
+                // what if there are no matches
+
+                
+            });
         });
 
+        chrome.tabs.update(currentTab.id, { pinned: currentTab.pinned });
+
+        // chrome.windows.getCurrent({ windowTypes: ['normal'], populate: true }, function (currentWindow) {
+            
+        // });
     });
+
+    // timing issue?    
+
 }
 
 window.onkeyup = function(e){

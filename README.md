@@ -26,6 +26,7 @@ My first chrome extension. The goal is to transition into being a full fledged t
   - Close tabs
   - Windows-like selection (ctrl, shift)
   - Easy window management
+  - Tree structure (openerId) `option`
 - _Synchronize open tabs on different devices_
 - __Bookmark features__
   - Sort bookmarks
@@ -44,6 +45,7 @@ My first chrome extension. The goal is to transition into being a full fledged t
 - Move active tab group one group to the left/right
 - Custom sort pinned tabs
 
+
 ### Planned non-functionality
 
 - Find a way to speedup Code -> Reload -> Inspect
@@ -58,3 +60,12 @@ My first chrome extension. The goal is to transition into being a full fledged t
 - Hover question mark that shows keyboard shortcuts
 - Figure out how to get Chrome IntelliSense in VSCode (intellisense file)
 - Make README user-friendly with pretty badges and stuff :-)
+- License?
+
+## Issues
+
+```javascript
+var currentTab = activeTabs[0];
+```
+
+Is not neccesarily the currentTab
