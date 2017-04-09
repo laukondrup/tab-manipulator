@@ -4,8 +4,8 @@ My first chrome extension. The goal is to transition into being a full fledged t
 
 ## Implemented features
 
-- [x] Sort tabs by age > <kbd>a</kbd>
-- [x] Sort tabs by URL > <kbd>u</kbd>
+- [x] Sort tabs by age > `a`
+- [x] Sort tabs by URL > `u`
 - [x] Merge windows
 
 ## Next features
