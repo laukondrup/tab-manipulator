@@ -4,34 +4,44 @@
 // document.getElementById('extractDomain').onclick = extractDomain;
 // document.getElementById('sortByDomain').onclick = sortByDomain;
 
+function sendMessage(message){
+    chrome.runtime.sendMessage({action: message});
+}
+
+// var actionElements = document.getElementsByClassName('action');
+// for (var actionElement in actionElements){
+//     actionElement.onclick = chrome.runtime.sendMessage({action: actionElement.id});
+// }
+
 // TODO do better
 document.getElementById('sortByAge').onclick = function(){
-    chrome.runtime.sendMessage({action: 'sortByAge'});
+    sendMessage('sortByAge');
+
 };
 
 document.getElementById('sortByUrl').onclick = function(){
-    chrome.runtime.sendMessage({action: 'sortByUrl'});
+    sendMessage('sortByUrl');
 };
 
 document.getElementById('mergeWindows').onclick = function(){
-    chrome.runtime.sendMessage({action: 'mergeWindows'});
+    sendMessage('mergeWindows');
 };
 
 document.getElementById('extractDomain').onclick = function(){
-    chrome.runtime.sendMessage({action: 'extractDomain'});
+    sendMessage('extractDomain');
 };
 
 document.getElementById('sortByDomain').onclick = function(){
-    chrome.runtime.sendMessage({action: 'sortByDomain'});
+    sendMessage('sortByDomain');
 };
 
 window.onkeyup = function(e){
     if(e.shiftKey || e.ctrlKey){ return; } 
         
     if(e.key === "a"){
-        sortByAge();
+        sendMessage('sortByAge');
     }
     else if(e.key === "u"){
-        sortByUrl();
+        sendMessage('sortByUrl');
     }
 };

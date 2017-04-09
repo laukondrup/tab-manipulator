@@ -7,13 +7,14 @@ My first chrome extension. The goal is to transition into being a full fledged t
 - [x] Sort tabs by age > `a`
 - [x] Sort tabs by URL > `u`
 - [x] Merge windows
+- [x] _Extract domain_
 
 ## Next features
 
 - Message passing, why is it needed?
 - List tabs
   - Drag tab from one window to another
-  - Extract domain
+  
 
 ## Future features
 
@@ -63,6 +64,7 @@ My first chrome extension. The goal is to transition into being a full fledged t
 - Make README user-friendly with pretty badges and stuff :-)
 - License?
 - JavaScript whitespace convention?
+- Git commit message (prefix) convention?
 
 ## Issues
 
