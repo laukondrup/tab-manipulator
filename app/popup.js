@@ -1,6 +1,7 @@
 document.getElementById('sortByAge').onclick = sortByAge;
 document.getElementById('sortByUrl').onclick = sortByUrl;
 document.getElementById('mergeWindows').onclick = mergeWindows;
+document.getElementById('extractDomain').onclick = extractDomain;
 // document.getElementById('sortByDomain').onclick = sortByDomain;
 
 function sortByAge(){
@@ -60,7 +61,7 @@ function sortByUrl(){
 // }
 
 function getDomain(url){
-    
+
     var splitUrl = url.split('//');
     if(splitUrl.length === 2){
         url = splitUrl[1];
@@ -84,6 +85,18 @@ function mergeWindows(){
         chrome.tabs.query({currentWindow: false, pinned: false}, function(tabs){
             tabIds = tabs.map(function(tab){ return tab.id; });
             chrome.tabs.move(tabIds, {windowId: activeTabs[0].windowId, index: -1});
+        });
+
+    });
+}
+
+function extractDomain(){
+    chrome.tabs.query({active: true}, function(activeTabs){
+
+        chrome.windows.create({focused: true}, function(newWindow){
+            // TODO if first extracted tab was pinned, re-pin it OR create window first, 
+            // then move, but then harder to focus window and know the active tab
+            console.log('Hello World');
         });
 
     });
