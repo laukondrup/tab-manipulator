@@ -1,10 +1,9 @@
 chrome.runtime.onMessage.addListener(handleMessage);
 
 function handleMessage(message, sender) {
-    var action = message.action;
-    var args = message.args;
-    console.log(action, '(', args, ')');
-    switch (action) {
+    // var args = message.args;
+    // console.log(action, '(', args, ')');
+    switch (message.action) {
         // TODO do better
         case 'sortByAge':
             sortByAge();

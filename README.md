@@ -49,6 +49,7 @@ My first chrome extension. The goal is to transition into being a full fledged t
   - Assign domain/URL to a **category** (ie. productive)
   - Window allow only 'Productive' or move to other window
 - Sort tabs to the right, left of selected tab
+- Close duplicates
 
 ### Planned non-functionality
 
