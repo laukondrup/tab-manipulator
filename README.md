@@ -45,6 +45,11 @@ My first chrome extension. The goal is to transition into being a full fledged t
 - Undo last action
 - Move active tab group one group to the left/right
 - Custom sort pinned tabs
+- Window **tab rules**
+  - Assign domain/URL to a **category** (ie. productive)
+  - Window allow only 'Productive' or move to other window
+- Sort tabs to the right, left of selected tab
+- Close duplicates
 
 ### Planned non-functionality
 
@@ -63,6 +68,8 @@ My first chrome extension. The goal is to transition into being a full fledged t
 - License?
 - JavaScript whitespace convention?
 - Git commit message (prefix) convention?
+- GIF of the extension
+- Big project logo
 
 ## Issues
 
@@ -73,6 +80,7 @@ var currentTab = activeTabs[0];
 - Is not neccesarily the currentTab
 - `chrome.tabs.move` does not remember pinned state
 - Weird highlighted button on MacOS (sortByAge)
+- Endless README updates pollute commit history
 
 ## Commit message prefix
 

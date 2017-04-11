@@ -1,10 +1,9 @@
 chrome.runtime.onMessage.addListener(handleMessage);
 
 function handleMessage(message, sender) {
-    var action = message.action;
-    var args = message.args;
-    console.log(action, '(', args, ')');
-    switch (action) {
+    // var args = message.args;
+    // console.log(action, '(', args, ')');
+    switch (message.action) {
         // TODO do better
         case 'sortByAge':
             sortByAge();
@@ -128,7 +127,7 @@ function extractDomain() {
         var baseUrl = getBaseUrl(currentTab.url);
         // TODO state maximized bad code, rather get from currentWindow
         chrome.windows.create({ tabId: currentTab.id, focused: true, state: "maximized" }, function(newWindow){
-            chrome.tabs.query({ currentWindow: false }, function (tabs) {
+            chrome.tabs.query({ currentWindow: false, pinned: false }, function (tabs) {
                 tabs.forEach(function(tab){
                     if(baseUrl == getBaseUrl(tab.url)){
                         chrome.tabs.move(tab.id, { windowId: newWindow.id, index: -1 });
