@@ -79,11 +79,14 @@ var currentTab = activeTabs[0];
 
 - Is not neccesarily the currentTab
 - `chrome.tabs.move` does not remember pinned state
+- Weird highlighted button on MacOS (sortByAge)
 - Endless README updates pollute commit history
 
 ## Commit message prefix
 
-_Taken from Angular contributing file._
+[Taken from Angular contributing file.](https://github.com/angular/angular.js/blob/master/CONTRIBUTING.md#commit)
+
+
 Must be one of the following:
 
 - **feat**: A new feature
