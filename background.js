@@ -66,11 +66,13 @@ function sortByDomain(){
         var frequency = {};
         tabs.forEach(function(tab){
             tab.domain = getBaseUrl(tab.url);
-            frequency[tab.domain] = 0;
+            frequency[tab.domain] = { counter: 0, tabIds: {} } ;
         });
         // How to keep tabId?
         tabs.forEach(function(tab){
-            frequency[tab.domain]++;
+            var frequency = frequency[tab.domain];
+            frequency.counter++;
+            frequency.tabIds.add(tab.id);
         });
         printJson(frequency);
         // tabs.sort()
@@ -78,14 +80,10 @@ function sortByDomain(){
 }
 
 function getBaseUrl(url){
-    url = getDomain(url).split('.');
+    url = getDomain(url).split('/');
     // example.com
-    if (url.length === 2){
+    if (url.length > 1){
         return url[0];
-    }
-    // help.github.com
-    else if (url.length >= 3){
-        return url[1];
     }
     else {
         return url;
@@ -96,7 +94,7 @@ function getBaseUrl(url){
  * Returns the URL with http(s):// removed
  */
 function getDomain(url){
-    var splitUrl = url.split('//');
+    var splitUrl = url.split('://');
     if(splitUrl.length === 2){
         url = splitUrl[1];
     } 
