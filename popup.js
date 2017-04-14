@@ -2,7 +2,7 @@
 // document.getElementById('sortByUrl').onclick = sortByUrl;
 // document.getElementById('mergeWindows').onclick = mergeWindows;
 // document.getElementById('extractDomain').onclick = extractDomain;
-// document.getElementById('sortByDomain').onclick = sortByDomain;
+// document.getElementById('sortByNumDomain').onclick = sortByNumDomain;
 
 function sendMessage(message){
     chrome.runtime.sendMessage({action: message});
@@ -30,8 +30,8 @@ document.getElementById('extractDomain').onclick = function(){
     sendMessage('extractDomain');
 };
 
-document.getElementById('sortByDomain').onclick = function(){
-    sendMessage('sortByDomain');
+document.getElementById('sortByNumDomain').onclick = function(){
+    sendMessage('sortByNumDomain');
 };
 
 window.onkeyup = function(e){

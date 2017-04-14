@@ -8,16 +8,16 @@ My first chrome extension. The goal is to transition into being a full fledged t
 - [x] Sort tabs by URL > `u`
 - [x] Merge windows
 - [x] _Extract domain_
+- [ ] **Number of domain open**
+
 
 ## Next features
 
-- Message passing, why is it needed?
 - List tabs
   - Drag tab from one window to another
 
 ## Future features
 
-- Number of domain open
 - Automatically sort based on user-defined sort order
 - Bookmarks folder stacks, think OneTab
   - Workflow: switch device? Create stack that will close and bookmark and tabs into user-defined-folder/date|user-defined-title. Date prefix recommended for sorting purposes

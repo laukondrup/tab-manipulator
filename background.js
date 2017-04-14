@@ -17,8 +17,8 @@ function handleMessage(message, sender) {
         case 'extractDomain':
             extractDomain();
             break;
-        case 'sortByDomain':
-            sortByDomain();
+        case 'sortByNumDomain':
+            sortByNumDomain();
             break;
         default:
             console.log('Unhandled message:', message);
@@ -61,21 +61,37 @@ function sortByUrl(){
     });
 }
 
-function sortByDomain(){
-    chrome.tabs.query({currentWindow: true, pinned: false}, function(tabs){
-        var frequency = {};
-        tabs.forEach(function(tab){
+// TODO find a better name
+function sortByNumDomain() {
+    chrome.tabs.query({ currentWindow: true, pinned: false, windowType: 'normal' }, function (tabs) {
+        // TODO better name
+        var domainTabIds = {};
+        tabs.forEach(function (tab) {
             tab.domain = getBaseUrl(tab.url);
-            frequency[tab.domain] = { counter: 0, tabIds: {} } ;
+            domainTabIds[tab.domain] = [];
         });
+
         // How to keep tabId?
-        tabs.forEach(function(tab){
-            var frequency = frequency[tab.domain];
-            frequency.counter++;
-            frequency.tabIds.add(tab.id);
+        tabs.forEach(function (tab) {
+            var tabIds = domainTabIds[tab.domain];
+            tabIds.push(tab.id);
         });
-        printJson(frequency);
-        // tabs.sort()
+        
+        let tabIds = [];
+
+        let sortedDomains = Object.keys(domainTabIds).sort(function(a, b){
+            return domainTabIds[a].length - domainTabIds[b].length;
+        });
+
+        for(let key in sortedDomains){
+            const partTabIds = domainTabIds[sortedDomains[key]];
+
+            for(let key in partTabIds){
+               tabIds.push(partTabIds[key]); 
+            }
+        }
+        
+        chrome.tabs.move(tabIds, { index: -1 });
     });
 }
 
@@ -112,7 +128,7 @@ function printJson(input){
 function mergeWindows(){
     chrome.tabs.query({active: true}, function(activeTabs){
         chrome.tabs.query({currentWindow: false, pinned: false}, function(tabs){
-            tabIds = tabs.map(function(tab){ return tab.id; });
+            var tabIds = tabs.map(function(tab){ return tab.id; });
             chrome.tabs.move(tabIds, {windowId: activeTabs[0].windowId, index: -1});
         });
 

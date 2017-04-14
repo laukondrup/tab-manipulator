@@ -3,13 +3,24 @@ a {
   width: 130px;
 }
 
+body {
+  background: #224862;
+  color: #ffffff;
+  padding: 20px
+}
+
+h1 {
+  font-size: 2em;
+  font-weight: 300;
+}
+
 .btn {
   background: #007acc;
   color: #ffffff;
   font-size: 1.28em;
   padding: 10px 20px 10px 20px;
   display: block;
-  margin-top: 5px;
+  margin-bottom: 10px;
 }
 
 .btn:hover {
@@ -20,17 +31,16 @@ a {
     background: #82add0;
 }
 
-
 #mergeWindows {
     background: #22b086;
 }
 
 #extractDomain {
-    background: rgb(99.9%, 75.8%, 19.8%);
+    background: #d5cc2f;
 }
 
-#sortByDomain {
-    background: #ec6a53;
+#sortByNumDomain {
+    background: #ff5370;
 }
 
 
