@@ -6,7 +6,7 @@ a {
 body {
   background: #224862;
   color: #ffffff;
-  padding: 20px
+  padding: 5px 10px;
 }
 
 h1 {
@@ -32,15 +32,15 @@ h1 {
 }
 
 #mergeWindows {
-    background: #22b086;
+    background: #ff5370;
 }
 
 #extractDomain {
-    background: #d5cc2f;
+    background: #deae34;
 }
 
 #sortByNumDomain {
-    background: #ff5370;
+    background: #22b086;
 }
 
 
