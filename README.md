@@ -7,17 +7,24 @@ My first chrome extension. The goal is to transition into being a full fledged t
 - [x] Sort tabs by age > `a`
 - [x] Sort tabs by URL > `u`
 - [x] Merge windows
-- [x] _Extract domain_
-- [ ] **Number of domain open**
+- [x] Extract domain
+- [x] Number of domain open
 
 
 ## Next features
 
-- List tabs
-  - Drag tab from one window to another
+- Make messages dynamic based on a.action.id
+- Ability to undo previous action (merge, extract)
+  - No way to do perfect? How to remember extract window location?
+- Split here
+  - Stay in current window, or move to new one?
+- Close tabs right, works well with custom user sort
+- Close tabs left
+- Close all but this
 
 ## Future features
 
+- Omnibar commands?
 - Automatically sort based on user-defined sort order
 - Bookmarks folder stacks, think OneTab
   - Workflow: switch device? Create stack that will close and bookmark and tabs into user-defined-folder/date|user-defined-title. Date prefix recommended for sorting purposes
@@ -30,9 +37,7 @@ My first chrome extension. The goal is to transition into being a full fledged t
   - Tree structure (openerId) `option`
 - _Synchronize open tabs on different devices_
 - __Bookmark features__
-  - Sort bookmarks
-    - Age
-    - URL
+  - Sessions
 - Open tab groups to pin
 - Keyboard shortcuts
   - Toggle pin tab
@@ -42,7 +47,6 @@ My first chrome extension. The goal is to transition into being a full fledged t
 - User-defined sort based on regex matching urls and assigning letters to them, like TabGrouper used to do
 - Rename current tab in window (rename or prefix). ie. to indicate [DEV] window or [Study] window etc. (assign string to windowId)
 - Disable ctrl+W for pinned tabs
-- Undo last action
 - Move active tab group one group to the left/right
 - Custom sort pinned tabs
 - Window **tab rules**
@@ -50,9 +54,12 @@ My first chrome extension. The goal is to transition into being a full fledged t
   - Window allow only 'Productive' or move to other window
 - Sort tabs to the right, left of selected tab
 - Close duplicates
+- Always open tab to the right checkbox
 
 ### Planned non-functionality
 
+- Consider project name prefix
+- Rename ~ Tab Manipulator
 - Find a way to speedup Code -> Reload -> Inspect
 - Extension icon
 - Icon/images for buttons for faster recognition

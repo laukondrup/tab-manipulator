@@ -1,38 +1,15 @@
-// document.getElementById('sortByAge').onclick = sortByAge;
-// document.getElementById('sortByUrl').onclick = sortByUrl;
-// document.getElementById('mergeWindows').onclick = mergeWindows;
-// document.getElementById('extractDomain').onclick = extractDomain;
-// document.getElementById('sortByNumDomain').onclick = sortByNumDomain;
-
 function sendMessage(message){
-    chrome.runtime.sendMessage({action: message});
+    chrome.runtime.sendMessage({action: message}, function(response){
+        console.log(`MessageResponse: ${response}`);
+    });
 }
 
-// var actionElements = document.getElementsByClassName('action');
-// for (var actionElement in actionElements){
-//     actionElement.onclick = chrome.runtime.sendMessage({action: actionElement.id});
-// }
+var actionElements = document.getElementsByClassName('action');
+for (var key in actionElements){
+    let action = actionElements[key];
+    action.onclick = () => sendMessage(action.id);
+}
 
-// TODO do better
-document.getElementById('sortByAge').onclick = function(){
-    sendMessage('sortByAge');
-};
-
-document.getElementById('sortByUrl').onclick = function(){
-    sendMessage('sortByUrl');
-};
-
-document.getElementById('mergeWindows').onclick = function(){
-    sendMessage('mergeWindows');
-};
-
-document.getElementById('extractDomain').onclick = function(){
-    sendMessage('extractDomain');
-};
-
-document.getElementById('sortByNumDomain').onclick = function(){
-    sendMessage('sortByNumDomain');
-};
 
 window.onkeyup = function(e){
     if(e.shiftKey || e.ctrlKey){ return; } 
@@ -42,5 +19,8 @@ window.onkeyup = function(e){
     }
     else if(e.key === "u"){
         sendMessage('sortByUrl');
+    }
+    else if(e.key === "d"){
+        sendMessage('sortByNumDomain');
     }
 };
