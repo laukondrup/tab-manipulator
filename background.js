@@ -3,7 +3,7 @@ chrome.runtime.onMessage.addListener(handleMessage);
 function handleMessage(message, sender) {
     console.log(`Received message: ${message}. Sender: ${sender}`);
     switch (message.action) {
-        // TODO do better
+        // TODO find out how this can be done smarter
         case 'sortByAge':
             sortByAge();
             break;
@@ -18,6 +18,18 @@ function handleMessage(message, sender) {
             break;
         case 'sortByNumDomain':
             sortByNumDomain();
+            break;
+        case 'splitWindow':
+            splitWindow();
+            break;
+        case 'closeTabsLeft':
+            closeTabsLeft();
+            break;
+        case 'closeTabsRight':
+            closeTabsRight();
+            break;
+        case 'closeAllExceptCurrentTab':
+            closeAllExceptCurrentTab();
             break;
         default:
             console.log('Unhandled message:', message);
@@ -149,5 +161,12 @@ function extractDomain() {
             });
         });
         chrome.tabs.update(currentTab.id, { pinned: currentTab.pinned });
+    });
+}
+
+// TODO
+function splitWindow(){
+    chrome.tabs.query({ currentWindow: true, pinned: false }, function(tabs){
+        
     });
 }
