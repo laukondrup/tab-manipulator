@@ -188,6 +188,7 @@ function splitWindow(){
 	});    
 }
 
+// TODO: Consider how to handle pinned tabs 
 function closeTabsLeft(){
 	chrome.windows.getCurrent({ populate: true }, function(currentWindow){
 		let tabIdsToClose = [];
@@ -204,6 +205,7 @@ function closeTabsLeft(){
 	});   
 }
 
+// TODO: Consider how to handle pinned tabs
 function closeTabsRight(){
 	chrome.windows.getCurrent({ populate: true }, function(currentWindow){
 		let tabIdsToClose = [];
@@ -220,7 +222,18 @@ function closeTabsRight(){
 	});    
 }
 
-// FIXME: incomplete
 function closeAllExceptCurrentTab(){
-	
+	chrome.windows.getCurrent({ populate: true }, function(currentWindow){
+		let tabIdsToClose = [];
+		
+		for(let i = 0; i < currentWindow.tabs.length; i++){
+			if(currentWindow.tabs[i].active){
+				continue;
+			}
+			else {
+				tabIdsToClose.push(currentWindow.tabs[i].id);
+			}
+		}
+		chrome.tabs.remove(tabIdsToClose);
+	});    
 }
