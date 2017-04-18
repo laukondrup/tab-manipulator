@@ -1,3 +1,5 @@
+// chrome.tabs.create({url:"popup.html"})
+
 chrome.runtime.onMessage.addListener(handleMessage);
 
 function handleMessage(message, sender) {

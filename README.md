@@ -13,7 +13,6 @@ My first chrome extension. The goal is to transition into being a full fledged t
 
 ## Next features
 
-- Make messages dynamic based on a.action.id
 - Ability to undo previous action (merge, extract)
   - No way to do perfect? How to remember extract window location?
 - Split here
@@ -25,7 +24,6 @@ My first chrome extension. The goal is to transition into being a full fledged t
 ## Future features
 
 - Omnibar commands?
-- Automatically sort based on user-defined sort order
 - Bookmarks folder stacks, think OneTab
   - Workflow: switch device? Create stack that will close and bookmark and tabs into user-defined-folder/date|user-defined-title. Date prefix recommended for sorting purposes
 - Vertical tab-layout
@@ -46,13 +44,11 @@ My first chrome extension. The goal is to transition into being a full fledged t
 - _Launchy/Vimium like interface_
 - User-defined sort based on regex matching urls and assigning letters to them, like TabGrouper used to do
 - Rename current tab in window (rename or prefix). ie. to indicate [DEV] window or [Study] window etc. (assign string to windowId)
-- Disable ctrl+W for pinned tabs
 - Move active tab group one group to the left/right
 - Custom sort pinned tabs
 - Window **tab rules**
   - Assign domain/URL to a **category** (ie. productive)
   - Window allow only 'Productive' or move to other window
-- Sort tabs to the right, left of selected tab
 - Close duplicates
 - Always open tab to the right checkbox
 
@@ -80,14 +76,7 @@ My first chrome extension. The goal is to transition into being a full fledged t
 
 ## Issues
 
-```javascript
-var currentTab = activeTabs[0];
-```
-
-- Is not neccesarily the currentTab
-- `chrome.tabs.move` does not remember pinned state
 - Weird highlighted button on MacOS (sortByAge)
-- Endless README updates pollute commit history
 
 ## Commit message prefix
 

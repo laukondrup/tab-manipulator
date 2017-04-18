@@ -1,7 +1,7 @@
 {
-  "name": "tabSorter",
-  "description": "",
-  "version": "0.1",
+  "name": "Tab Manipulator",
+  "description": "Sort tabs, merge windows, extract domain and other tab manipulation.",
+  "version": "1.0",
   "author": "Lau Kondrup",
   "homepage_url": "https://github.com/LK28/tabSorter",
   "browser_action": {
