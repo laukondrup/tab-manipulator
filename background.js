@@ -8,34 +8,34 @@ function handleMessage(message, sender) {
     switch (message.action) {
         // TODO: find out how this can be done smarter
         case 'sortByAge':
-            sortByAge();
-            break;
+        sortByAge();
+        break;
         case 'sortByUrl':
-            sortByUrl();
-            break;
+        sortByUrl();
+        break;
         case 'mergeWindows':
-            mergeWindows();
-            break;
+        mergeWindows();
+        break;
         case 'extractDomain':
-            extractDomain();
-            break;
+        extractDomain();
+        break;
         case 'sortByNumDomain':
-            sortByNumDomain();
-            break;
+        sortByNumDomain();
+        break;
         case 'splitWindow':
-            splitWindow();
-            break;
+        splitWindow();
+        break;
         case 'closeTabsLeft':
-            closeTabsLeft();
-            break;
+        closeTabsLeft();
+        break;
         case 'closeTabsRight':
-            closeTabsRight();
-            break;
+        closeTabsRight();
+        break;
         case 'closeAllExceptCurrentTab':
-            closeAllExceptCurrentTab();
-            break;
+        closeAllExceptCurrentTab();
+        break;
         default:
-            console.log('Unhandled message:', message);
+        console.log('Unhandled message:', message);
     }
 }
 
@@ -164,7 +164,6 @@ function extractDomain() {
     });
 }
 
-// TODO:
 function splitWindow(){
     chrome.windows.getCurrent({ populate: true }, function(currentWindow){
         let tabsToMove = [];
@@ -187,4 +186,48 @@ function splitWindow(){
             chrome.tabs.move(tabsToMove, { windowId: newWindow.id, index: -1 });
         });
     });    
+}
+
+// FIXME: incomplete
+function closeTabsLeft(){
+    chrome.windows.getCurrent({ populate: false }, function(currentWindow){
+        let tabsToClose = [];
+        let currentTabId;
+        
+        // TODO: forEach or for in
+        for(let i = currentWindow.tabs.length - 1; i > 0; i--){
+            if(currentWindow.tabs[i].active){
+                currentTabId = currentWindow.tabs[i].id;
+                break;
+            }
+            else {
+                tabsToClose.push(currentWindow.tabs[i].id);
+            }
+        }
+        
+        chrome.tabs.remove({ tabId: currentTabId, focused: true, state: "maximized" }, function(newWindow){
+            chrome.tabs.move(tabsToClose, { windowId: newWindow.id, index: -1 });
+        });
+    });    
+}
+
+function closeTabsRight(){
+    chrome.windows.getCurrent({ populate: true }, function(currentWindow){
+        let tabIdsToClose = [];
+        
+        for(let i = currentWindow.tabs.length - 1; i > 0; i--){
+            if(currentWindow.tabs[i].active){
+                break;
+            }
+            else {
+                tabIdsToClose.push(currentWindow.tabs[i].id);
+            }
+        }
+        chrome.tabs.remove(tabIdsToClose);
+    });    
+}
+
+// FIXME: incomplete
+function closeAllExceptCurrentTab(){
+    
 }
