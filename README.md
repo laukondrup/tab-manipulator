@@ -9,17 +9,17 @@ My first chrome extension. The goal is to transition into being a full fledged t
 - [x] Merge windows
 - [x] Extract domain
 - [x] Number of domain open
+- [x] Split window
+- [x] Close tabs left
+- [x] Close tabs right (works well with custom user sort)
+- [x] Close all but this
 
 
 ## Next features
 
 - Ability to undo previous action (merge, extract)
   - No way to do perfect? How to remember extract window location?
-- Split here
-  - Stay in current window, or move to new one?
-- Close tabs right, works well with custom user sort
-- Close tabs left
-- Close all but this
+
 
 ## Future features
 
