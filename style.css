@@ -25,7 +25,7 @@ h1 {
 }
 
 .incomplete {
-  background-color: #1e2931
+  background: #1e2931 !important;
 }
 
 .btn:hover {
@@ -33,7 +33,7 @@ h1 {
 }
 
 #sortByAge {
-  background-color: #007acc;
+  background: #007acc;
 }
 
 #sortByUrl {
@@ -50,6 +50,10 @@ h1 {
 
 #sortByNumDomain {
     background: #22b086;
+}
+
+#splitWindow {
+  background: #4f98cc;
 }
 
 

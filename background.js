@@ -3,9 +3,10 @@
 chrome.runtime.onMessage.addListener(handleMessage);
 
 function handleMessage(message, sender) {
-    console.log(`Received message: ${message}. Sender: ${sender}`);
+    console.log('Received message:', message)
+    console.log('Sender: ', sender);
     switch (message.action) {
-        // TODO find out how this can be done smarter
+        // TODO: find out how this can be done smarter
         case 'sortByAge':
             sortByAge();
             break;
@@ -35,22 +36,19 @@ function handleMessage(message, sender) {
             break;
         default:
             console.log('Unhandled message:', message);
-            break;
     }
 }
 
 function sortByAge(){
-    chrome.tabs.query({currentWindow: true, pinned: false},
-        function (tabs){
-            tabs.sort(function(a, b){
-                return a.id - b.id;
-            });
-            var tabIds = tabs.map(function(tab){
-                return tab.id;
-            });
-            chrome.tabs.move(tabIds, {index: -1});
-        }
-    ); 
+    chrome.tabs.query({currentWindow: true, pinned: false}, function (tabs){
+        tabs.sort(function(a, b){
+            return a.id - b.id;
+        });
+        var tabIds = tabs.map(function(tab){
+            return tab.id;
+        });
+        chrome.tabs.move(tabIds, {index: -1});
+    }); 
 }
 
 function sortByUrl(){
@@ -74,16 +72,16 @@ function sortByUrl(){
     });
 }
 
-// TODO find a better name
+// TODO: find a better name
 function sortByNumDomain() {
     chrome.tabs.query({ currentWindow: true, pinned: false, windowType: 'normal' }, function (tabs) {
-        // TODO better name
+        // TODO: better name
         var domainTabIds = {};
         tabs.forEach(function (tab) {
             tab.domain = getBaseUrl(tab.url);
             domainTabIds[tab.domain] = [];
         });
-
+        
         // How to keep tabId?
         tabs.forEach(function (tab) {
             var tabIds = domainTabIds[tab.domain];
@@ -91,16 +89,16 @@ function sortByNumDomain() {
         });
         
         let tabIds = [];
-
+        
         let sortedDomains = Object.keys(domainTabIds).sort(function(a, b){
             return domainTabIds[a].length - domainTabIds[b].length;
         });
-
+        
         for(let key in sortedDomains){
             const partTabIds = domainTabIds[sortedDomains[key]];
-
+            
             for(let key in partTabIds){
-               tabIds.push(partTabIds[key]); 
+                tabIds.push(partTabIds[key]); 
             }
         }
         
@@ -120,8 +118,8 @@ function getBaseUrl(url){
 }
 
 /**
- * Returns the URL with http(s):// removed
- */
+* Returns the URL with http(s):// removed
+*/
 function getDomain(url){
     var splitUrl = url.split('://');
     if(splitUrl.length === 2){
@@ -139,12 +137,12 @@ function printJson(input){
 }
 
 function mergeWindows(){
-    chrome.tabs.query({active: true}, function(activeTabs){
+    chrome.windows.getCurrent({ populate: false }, function(currentWindow){
         chrome.tabs.query({currentWindow: false, pinned: false}, function(tabs){
             var tabIds = tabs.map(function(tab){ return tab.id; });
-            chrome.tabs.move(tabIds, {windowId: activeTabs[0].windowId, index: -1});
+            chrome.tabs.move(tabIds, {windowId: currentWindow.id, index: -1});
         });
-
+        
     });
 }
 
@@ -152,7 +150,7 @@ function extractDomain() {
     chrome.tabs.query({ active: true }, function (activeTabs) {
         var currentTab = activeTabs[0];
         var baseUrl = getBaseUrl(currentTab.url);
-        // TODO state maximized bad code, rather get from currentWindow
+        // TODO: state maximized bad code, rather get from currentWindow
         chrome.windows.create({ tabId: currentTab.id, focused: true, state: "maximized" }, function(newWindow){
             chrome.tabs.query({ currentWindow: false, pinned: false }, function (tabs) {
                 tabs.forEach(function(tab){
@@ -166,9 +164,27 @@ function extractDomain() {
     });
 }
 
-// TODO
+// TODO:
 function splitWindow(){
-    chrome.tabs.query({ currentWindow: true, pinned: false }, function(tabs){
+    chrome.windows.getCurrent({ populate: true }, function(currentWindow){
+        let tabsToMove = [];
+        let currentTabId;
         
-    });
+        // TODO: ugly, but best way?
+        for(let i = currentWindow.tabs.length - 1; i > 0; i--){
+            if(currentWindow.tabs[i].active){
+                currentTabId = currentWindow.tabs[i].id;
+                break;
+            }
+            else {
+                tabsToMove.push(currentWindow.tabs[i].id);
+            }
+        }
+        
+        // TODO: support updating pinned tabs. 
+        // Does chrome really not have a smart way to remember pinned status?
+        chrome.windows.create({ tabId: currentTabId, focused: true, state: "maximized" }, function(newWindow){
+            chrome.tabs.move(tabsToMove, { windowId: newWindow.id, index: -1 });
+        });
+    });    
 }
