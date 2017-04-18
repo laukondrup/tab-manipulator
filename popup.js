@@ -1,15 +1,17 @@
-// TODO DEV MODE REFRESH
+// TODO: DEV MODE REFRESH
 // setTimeout(function(){
 //    window.location.reload();
 // }, 2000);
 
+// chrome.tabs.create({url: 'popup.html'});
+
 function sendMessage(message){
     chrome.runtime.sendMessage({action: message}, function(response){
-        console.log(`MessageResponse: ${response}`);
+        console.log('MessageResponse: ', response);
     });
 }
 
-// TODO encapsulate
+// TODO: encapsulate
 const actionElements = document.getElementsByClassName('action');
 for (const key in actionElements){
     const action = actionElements[key];
