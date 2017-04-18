@@ -137,10 +137,10 @@ function printJson(input){
 }
 
 function mergeWindows(){
-    chrome.tabs.query({active: true}, function(activeTabs){
+    chrome.windows.getCurrent({ populate: false }, function(currentWindow){
         chrome.tabs.query({currentWindow: false, pinned: false}, function(tabs){
             var tabIds = tabs.map(function(tab){ return tab.id; });
-            chrome.tabs.move(tabIds, {windowId: activeTabs[0].windowId, index: -1});
+            chrome.tabs.move(tabIds, {windowId: currentWindow.id, index: -1});
         });
         
     });
