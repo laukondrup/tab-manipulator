@@ -3,6 +3,10 @@ a {
   width: 130px;
 }
 
+a:focus {
+  outline: none;
+}
+
 body {
   background: #224862;
   color: #ffffff;
