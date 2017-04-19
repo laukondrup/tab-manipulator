@@ -192,15 +192,15 @@ function splitWindow(){
 
 // TODO: Consider how to handle pinned tabs 
 function closeTabsLeft(){
-	chrome.windows.getCurrent({ populate: true }, function(currentWindow){
+	chrome.tabs.query({ lastFocusedWindow: true }, function(currentWindowTabs){
 		let tabIdsToClose = [];
 		
-		for(let i = 0; i < currentWindow.tabs.length; i++){
-			if(currentWindow.tabs[i].active){
+		for(let i = 0; i < currentWindowTabs.length; i++){
+			if(currentWindowTabs[i].active){
 				break;
 			}
 			else {
-				tabIdsToClose.push(currentWindow.tabs[i].id);
+				tabIdsToClose.push(currentWindowTabs[i].id);
 			}
 		}
 		chrome.tabs.remove(tabIdsToClose);
@@ -209,15 +209,15 @@ function closeTabsLeft(){
 
 // TODO: Consider how to handle pinned tabs
 function closeTabsRight(){
-	chrome.windows.getCurrent({ populate: true }, function(currentWindow){
+	chrome.tabs.query({ lastFocusedWindow: true }, function(currentWindowTabs){
 		let tabIdsToClose = [];
 		
-		for(let i = currentWindow.tabs.length - 1; i > 0; i--){
-			if(currentWindow.tabs[i].active){
+		for(let i = currentWindowTabs.length - 1; i > 0; i--){
+			if(currentWindowTabs[i].active){
 				break;
 			}
 			else {
-				tabIdsToClose.push(currentWindow.tabs[i].id);
+				tabIdsToClose.push(currentWindowTabs[i].id);
 			}
 		}
 		chrome.tabs.remove(tabIdsToClose);
@@ -225,15 +225,15 @@ function closeTabsRight(){
 }
 
 function closeAllExceptCurrentTab(){
-	chrome.windows.getCurrent({ populate: true }, function(currentWindow){
+	chrome.tabs.query({ lastFocusedWindow: true }, function(currentWindowTabs){
 		let tabIdsToClose = [];
 		
-		for(let i = 0; i < currentWindow.tabs.length; i++){
-			if(currentWindow.tabs[i].active){
+		for(let i = 0; i < currentWindowTabs.length; i++){
+			if(currentWindowTabs[i].active){
 				continue;
 			}
 			else {
-				tabIdsToClose.push(currentWindow.tabs[i].id);
+				tabIdsToClose.push(currentWindowTabs[i].id);
 			}
 		}
 		chrome.tabs.remove(tabIdsToClose);
