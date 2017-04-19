@@ -3,7 +3,7 @@
   "description": "Sort tabs, merge windows, extract domain and other tab manipulation.",
   "version": "1.0",
   "author": "Lau Kondrup",
-  "homepage_url": "https://github.com/LK28/tabSorter",
+  "homepage_url": "https://github.com/LK28/tab-manipulator",
   "browser_action": {
     "default_popup": "popup.html"
   },
