@@ -36,33 +36,54 @@ h1 {
   cursor: pointer;
 }
 
-#sortByAge {
-  background: #007acc;
+.sort {
+  background: #53bf51;
 }
 
-#sortByUrl {
-    background: #82add0;
+.close {
+  background: #ff5370;
 }
 
-#mergeWindows {
-    background: #ff5370;
+.window {
+  background: #768fe8;
 }
-
-#extractDomain {
-    background: #deae34;
-}
-
-#sortByNumDomain {
-    background: #22b086;
-}
-
-#splitWindow {
-  background: #4f98cc;
-}
-
-
 
 .prominent {
   font-weight: bold;
   font-size: 20px;
 }
+
+/*#sortByAge {
+  background: #007acc;
+}
+
+#sortByUrl {
+    background: #82add0;
+}*/
+
+/*#mergeWindows {
+    background: #ff5370;
+}
+
+#extractDomain {
+    background: #deae34;
+}*/
+/*
+#sortByNumDomain {
+    background: #22b086;
+}*/
+
+/*#splitWindow {
+  background: #4f98cc;
+}*/
+/*
+#closeTabsLeft {
+  background: #8749a7;
+}
+#closeTabsRight {
+  background: 
+}
+#closeAllExceptCurrentTab {
+  background: 
+}*/
+
