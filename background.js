@@ -1,10 +1,12 @@
 // chrome.tabs.create({url:"popup.html"})
 
-chrome.runtime.onMessage.addListener(handleMessage);
+chrome.runtime.onMessage.addListener(handleMessages);
+chrome.commands.onCommand.addListener(handleCommands);
 
-function handleMessage(message, sender) {
-	console.log('Received message:', message)
-	console.log('Sender: ', sender);
+
+function handleMessages(message, sender) {
+	console.info('Received message:', message)
+	console.info('Sender: ', sender);
 	switch (message.action) {
 		// TODO: find out how this can be done smarter
 		case 'sortByAge':
@@ -35,7 +37,44 @@ function handleMessage(message, sender) {
 		closeAllExceptCurrentTab();
 		break;
 		default:
-		console.log('Unhandled message:', message);
+		console.error('Unhandled message: ', message);
+	} 
+}
+
+// FIXME: Reuse switch
+function handleCommands(command){
+	console.info('Received command: ', command)
+	switch (command) {
+		// TODO: find out how this can be done smarter
+		case 'sortByAge':
+		sortByAge();
+		break;
+		case 'sortByUrl':
+		sortByUrl();
+		break;
+		case 'mergeWindows':
+		mergeWindows();
+		break;
+		case 'extractDomain':
+		extractDomain();
+		break;
+		case 'sortByNumDomain':
+		sortByNumDomain();
+		break;
+		case 'splitWindow':
+		splitWindow();
+		break;
+		case 'closeTabsLeft':
+		closeTabsLeft();
+		break;
+		case 'closeTabsRight':
+		closeTabsRight();
+		break;
+		case 'closeAllExceptCurrentTab':
+		closeAllExceptCurrentTab();
+		break;
+		default:
+		console.error('Unhandled command: ', message);
 	}
 }
 

@@ -78,6 +78,7 @@ My first chrome extension. The goal is to transition into being a full fledged t
 
 - What is a consistent way to get the expected current window or tab?
 - Popup render bug (on Mac)
+- Remember pinned status when moving tabs
 
 ## Commit message prefix
 

@@ -15,5 +15,54 @@
     "scripts": ["background.js"],
     "persistent": false
   },
-  "manifest_version": 2
+  "manifest_version": 2,
+  "commands": {
+    "sortByAge": {
+      "suggested_key": {
+        "default": "Shift+Alt+A",
+        "windows": "Shift+Alt+A",
+        "mac": "Shift+Alt+A"
+      },
+      "description": "Sort the tabs by age"
+    },
+    "sortByUrl": {
+      "suggested_key": {
+        "default": "Shift+Alt+U",
+        "windows": "Shift+Alt+U",
+        "mac": "Shift+Alt+U"
+      },
+      "description": "Sort tabs by URL"
+    },
+    "mergeWindows": {
+      "description": "Merge all tabs from all windows"
+    },
+    "extractDomain": {
+      "description": "Combine all tabs matching the current domain into one new window"
+    },
+    "sortByNumDomain": {
+      "description": "Sort tabs by the number of tabs for each domain"
+    },
+    "splitWindow": {
+      "suggested_key": {
+        "default": "Shift+Alt+S",
+        "windows": "Shift+Alt+S",
+        "mac": "Shift+Alt+S"
+      },
+      "description": "Split window from current tab"
+    },
+    "closeTabsLeft": {
+      "description": "Close all tabs to the left"
+    },
+    "closeTabsRight": {
+      "suggested_key": {
+        "default": "Shift+Alt+R",
+        "windows": "Shift+Alt+R",
+        "mac": "Shift+Alt+R"
+      },
+      "description": "Close all tabs to the right"
+    },
+    "closeAllExceptCurrentTab": {
+      "description": "Close all except the current tab"
+    }
+  }
 }
