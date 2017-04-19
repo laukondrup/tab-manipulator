@@ -10,7 +10,7 @@ a:focus {
 body {
   background: #224862;
   color: #ffffff;
-  padding: 5px 10px;
+  padding: 10px 15px;
   /*width: 800px;*/
 }
 
@@ -37,7 +37,7 @@ h1 {
 }
 
 .sort {
-  background: #53bf51;
+  background: #46ad44;
 }
 
 .close {
@@ -45,13 +45,18 @@ h1 {
 }
 
 .window {
-  background: #768fe8;
+  background: #5b9dff;
 }
 
 .prominent {
   font-weight: bold;
   font-size: 20px;
 }
+
+.hidden {
+  display: none;
+}
+
 
 /*#sortByAge {
   background: #007acc;

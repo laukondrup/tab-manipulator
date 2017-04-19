@@ -1,29 +1,32 @@
 # Tab Manipulator
 
-My first chrome extension. The goal is to transition into being a full fledged tab/bookmark manager. Yet another tab manager huh.. How is this one any different from the other 1000?
+A Chrome Extension that sorts tabs, manages windows and closes tabs the way most editors do.
 
-## Implemented features
+![Tab Manipulator](http://imgur.com/xDNF5go.png)
 
-- [x] Sort tabs by age > `a`
-- [x] Sort tabs by URL > `u`
-- [x] Merge windows
-- [x] Extract domain
-- [x] Number of domain open
-- [x] Split window
-- [x] Close tabs left
-- [x] Close tabs right (works well with custom user sort)
-- [x] Close all but this
-- [x] Chrome commands for each feature
-  - [x] Also for pin tab and duplicate tab highlighted tabs
+## Features
 
-## Next features
+- [x] **Sort tabs by age**: shortcut `a` while the popup is open
+- [x] **Sort tabs by URL**: shortcut `u`while the popup is open
+- [x] **Sort by number of domain open**: sorts tabs in ascending order by the number of tabs with the same domain open
+- [x] **Merge windows**: combines all chrome windows
+- [x] **Extract domain**: moves all tabs with the same domain as the current one to a new window
+- [x] **Split window**: moves the current tab and all tabs to the right of it to a new window
+- [x] **Close tabs left**
+- [x] **Close tabs right** (works well with custom user sort)
+- [x] **Close all but this tab**
+- [x] **Keyboard shortcuts** for each feature: go to [**extensions**](chrome://extensions/) at the bottom click **Keyboard shortcuts**
+  - [x] Also for shortcuts for **pin** and **duplicate** highlighted tabs
 
+## Contributing
+
+## Feature considerations
+
+This is mostly brainstorming. A lot of these probably belong in another extension.
+
+- Extension icon
 - Ability to undo previous action (merge, extract)
   - No way to do perfect? How to remember extract window location?
-
-
-## Future features
-
 - Omnibar commands?
 - Bookmarks folder stacks, think OneTab
   - Workflow: switch device? Create stack that will close and bookmark and tabs into user-defined-folder/date|user-defined-title. Date prefix recommended for sorting purposes
@@ -53,48 +56,5 @@ My first chrome extension. The goal is to transition into being a full fledged t
 - Close duplicates
 - Always open tab to the right checkbox
 
-### Planned non-functionality
-
-- Consider project name prefix
-- Rename ~ Tab Manipulator
-- Find a way to speedup Code -> Reload -> Inspect
-- Extension icon
-- Icon/images for buttons for faster recognition
-- Try popular tools (in branches)
-- Setup Chrome Web Store
-- Rename project
-- Prettier font
-- Consider splitting the extension up in modules or seperate extensions
-- Polish styling
-- Hover question mark that shows keyboard shortcuts
-- Figure out how to get Chrome IntelliSense in VSCode (intellisense file)
-- Make README user-friendly with pretty badges and stuff :-)
-- License?
-- JavaScript whitespace convention?
-- Git commit message (prefix) convention?
-- GIF of the extension
-- Big project logo
-
-## Issues
-
-- What is a consistent way to get the expected current window or tab?
-- Popup render bug (on Mac)
-- Remember pinned status when moving tabs
-
-## Commit message prefix
-
-[Taken from Angular contributing file.](https://github.com/angular/angular.js/blob/master/CONTRIBUTING.md#commit)
 
 
-Must be one of the following:
-
-- **feat**: A new feature
-- **fix**: A bug fix
-- **docs**: Documentation only changes
-- **style**: Changes that do not affect the meaning of the code (white-space, formatting, missing
-- semi-colons, etc)
-- **refactor**: A code change that neither fixes a bug nor adds a feature
-- **perf**: A code change that improves performance
-- **test**: Adding missing or correcting existing tests
-- **chore**: Changes to the build process or auxiliary tools and libraries such as documentation
-  generation

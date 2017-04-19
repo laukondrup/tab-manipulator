@@ -37,7 +37,7 @@
       "description": "Merge all tabs from all windows"
     },
     "extractDomain": {
-      "description": "Combine all tabs matching the current domain into one new window"
+      "description": "Extract all tabs matching the current domain into one new window"
     },
     "sortByNumDomain": {
       "description": "Sort tabs by the number of tabs for each domain"
