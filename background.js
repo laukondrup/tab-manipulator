@@ -3,49 +3,31 @@
 chrome.runtime.onMessage.addListener(handleMessages);
 chrome.commands.onCommand.addListener(handleCommands);
 
-
 function handleMessages(message, sender) {
 	console.info('Received message:', message)
-	console.info('Sender: ', sender);
-	switch (message.action) {
-		// TODO: find out how this can be done smarter
-		case 'sortByAge':
-		sortByAge();
-		break;
-		case 'sortByUrl':
-		sortByUrl();
-		break;
-		case 'mergeWindows':
-		mergeWindows();
-		break;
-		case 'extractDomain':
-		extractDomain();
-		break;
-		case 'sortByNumDomain':
-		sortByNumDomain();
-		break;
-		case 'splitWindow':
-		splitWindow();
-		break;
-		case 'closeTabsLeft':
-		closeTabsLeft();
-		break;
-		case 'closeTabsRight':
-		closeTabsRight();
-		break;
-		case 'closeAllExceptCurrentTab':
-		closeAllExceptCurrentTab();
-		break;
-		default:
-		console.error('Unhandled message: ', message);
-	} 
+	console.info('Sender:', sender);
+
+	const messageHandled = functionNameSwitch(message.action);
+
+	if (messageHandled === false){
+		console.error('Unhandled message:', message);
+	}
 }
 
-// FIXME: Reuse switch
 function handleCommands(command){
-	console.info('Received command: ', command)
-	switch (command) {
-		// TODO: find out how this can be done smarter
+	console.info('Received command:', command)
+
+	const commandHandled = functionNameSwitch(command);
+
+	if (commandHandled === false){
+		console.error('Unhandled command:', command);
+	}
+}
+
+// TODO: find a better name
+function functionNameSwitch(functionNameAsString){
+	switch(functionNameAsString){
+		// TODO: Find out how this can be done smarter
 		case 'sortByAge':
 		sortByAge();
 		break;
@@ -74,7 +56,7 @@ function handleCommands(command){
 		closeAllExceptCurrentTab();
 		break;
 		default:
-		console.error('Unhandled command: ', message);
+		return false;
 	}
 }
 
@@ -111,17 +93,14 @@ function sortByUrl(){
 	});
 }
 
-// TODO: find a better name
 function sortByNumDomain() {
 	chrome.tabs.query({ currentWindow: true, pinned: false, windowType: 'normal' }, function (tabs) {
-		// TODO: better name
 		var domainTabIds = {};
 		tabs.forEach(function (tab) {
 			tab.domain = getBaseUrl(tab.url);
 			domainTabIds[tab.domain] = [];
 		});
 		
-		// How to keep tabId?
 		tabs.forEach(function (tab) {
 			var tabIds = domainTabIds[tab.domain];
 			tabIds.push(tab.id);
@@ -171,10 +150,6 @@ function getDomain(url){
 	return url;
 }
 
-function printJson(input){
-	console.log(JSON.stringify(input, null, 2));
-}
-
 function mergeWindows(){
 	chrome.tabs.query({ lastFocusedWindow: true, active: true }, function(currentTabs){
 		chrome.tabs.query({currentWindow: false }, function(otherWindowTabs){
@@ -185,11 +160,10 @@ function mergeWindows(){
 }
 
 function extractDomain() {
-	chrome.tabs.query({ active: true }, function (activeTabs) {
-		// TODO: use c.windows.getCurrent instead
-		var currentTab = activeTabs[0];
+	chrome.tabs.query({ currentWindow: true, active: true }, function (currentActiveTabs) {
+		var currentTab = currentActiveTabs[0];
 		var baseUrl = getBaseUrl(currentTab.url);
-		// TODO: state maximized bad code, rather get from currentWindow
+		// TODO: state maximized bad code, rather get from currentWindow state
 		chrome.windows.create({ tabId: currentTab.id, focused: true, state: "maximized" }, function(newWindow){
 			chrome.tabs.query({ currentWindow: false, pinned: false }, function (tabs) {
 				tabs.forEach(function(tab){
