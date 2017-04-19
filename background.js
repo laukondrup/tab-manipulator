@@ -137,12 +137,11 @@ function printJson(input){
 }
 
 function mergeWindows(){
-	chrome.windows.getCurrent({ populate: false }, function(currentWindow){
-		chrome.tabs.query({currentWindow: false, pinned: false}, function(tabs){
-			var tabIds = tabs.map(function(tab){ return tab.id; });
-			chrome.tabs.move(tabIds, {windowId: currentWindow.id, index: -1});
+	chrome.tabs.query({ lastFocusedWindow: true, active: true }, function(currentTabs){
+		chrome.tabs.query({currentWindow: false }, function(otherWindowTabs){
+			const tabIds = otherWindowTabs.map(tab => tab.id);
+			chrome.tabs.move(tabIds, {windowId: currentTabs[0].windowId, index: -1});
 		});
-		
 	});
 }
 
