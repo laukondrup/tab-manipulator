@@ -13,7 +13,8 @@ My first chrome extension. The goal is to transition into being a full fledged t
 - [x] Close tabs left
 - [x] Close tabs right (works well with custom user sort)
 - [x] Close all but this
-
+- [x] Chrome commands for each feature
+  - [x] Also for pin tab and duplicate tab highlighted tabs
 
 ## Next features
 

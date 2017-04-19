@@ -6,9 +6,9 @@ chrome.commands.onCommand.addListener(handleCommands);
 function handleMessages(message, sender) {
 	console.info('Received message:', message)
 	console.info('Sender:', sender);
-
+	
 	const messageHandled = functionNameSwitch(message.action);
-
+	
 	if (messageHandled === false){
 		console.error('Unhandled message:', message);
 	}
@@ -16,11 +16,20 @@ function handleMessages(message, sender) {
 
 function handleCommands(command){
 	console.info('Received command:', command)
-
+	
 	const commandHandled = functionNameSwitch(command);
-
+	
 	if (commandHandled === false){
-		console.error('Unhandled command:', command);
+		switch(command){
+			case 'duplicateTab':
+			duplicateTab();
+			break;
+			case 'pinTab':
+			togglePinTab();
+			break;
+			default:
+			console.error('Unhandled command:', command);
+		}
 	}
 }
 
@@ -250,4 +259,16 @@ function closeAllExceptCurrentTab(){
 		}
 		chrome.tabs.remove(tabIdsToClose);
 	});    
+}
+
+function togglePinTab(){
+	chrome.tabs.query({ currentWindow: true, highlighted: true}, function(currentTabs){
+		currentTabs.forEach(tab => chrome.tabs.update(tab.id, { pinned: !tab.pinned })); 
+	});
+}
+
+function duplicateTab(){
+	chrome.tabs.query({ currentWindow: true, highlighted: true}, function(currentTabs){
+		currentTabs.forEach(tab => chrome.tabs.duplicate(tab.id));
+	});
 }

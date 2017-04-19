@@ -63,6 +63,12 @@
     },
     "closeAllExceptCurrentTab": {
       "description": "Close all except the current tab"
+    },
+    "duplicateTab": {
+      "description": "Duplicate all highlighted tabs"
+    },
+    "pinTab": {
+      "description": "Pin all highlighted tabs"
     }
   }
 }
