@@ -148,6 +148,7 @@ function mergeWindows(){
 
 function extractDomain() {
 	chrome.tabs.query({ active: true }, function (activeTabs) {
+		// TODO: use c.windows.getCurrent instead
 		var currentTab = activeTabs[0];
 		var baseUrl = getBaseUrl(currentTab.url);
 		// TODO: state maximized bad code, rather get from currentWindow
@@ -165,23 +166,24 @@ function extractDomain() {
 }
 
 function splitWindow(){
-	chrome.windows.getCurrent({ populate: true }, function(currentWindow){
+	chrome.tabs.query({ currentWindow: true }, function(currentWindowTabs){
 		let tabsToMove = [];
 		let currentTabId;
 		
 		// TODO: ugly, but best way?
-		for(let i = currentWindow.tabs.length - 1; i > 0; i--){
-			if(currentWindow.tabs[i].active){
-				currentTabId = currentWindow.tabs[i].id;
+		for(let i = currentWindowTabs.length - 1; i > 0; i--){
+			if(currentWindowTabs[i].active){
+				currentTabId = currentWindowTabs[i].id;
 				break;
 			}
 			else {
-				tabsToMove.push(currentWindow.tabs[i].id);
+				tabsToMove.push(currentWindowTabs[i].id);
 			}
 		}
 		
 		// TODO: support updating pinned tabs. 
 		// Does chrome really not have a smart way to remember pinned status?
+		// How do I make this part wait for the upper part?
 		chrome.windows.create({ tabId: currentTabId, focused: true, state: "maximized" }, function(newWindow){
 			chrome.tabs.move(tabsToMove, { windowId: newWindow.id, index: -1 });
 		});

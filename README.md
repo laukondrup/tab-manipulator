@@ -74,6 +74,11 @@ My first chrome extension. The goal is to transition into being a full fledged t
 - GIF of the extension
 - Big project logo
 
+## Issues
+
+- What is a consistent way to get the expected current window or tab?
+- Popup render bug (on Mac)
+
 ## Commit message prefix
 
 [Taken from Angular contributing file.](https://github.com/angular/angular.js/blob/master/CONTRIBUTING.md#commit)
