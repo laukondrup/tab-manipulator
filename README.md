@@ -1,4 +1,4 @@
-# tabSorter
+# Tab Manipulator
 
 My first chrome extension. The goal is to transition into being a full fledged tab/bookmark manager. Yet another tab manager huh.. How is this one any different from the other 1000?
 
