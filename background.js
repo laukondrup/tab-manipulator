@@ -3,8 +3,24 @@
 chrome.runtime.onMessage.addListener(handleMessages);
 chrome.commands.onCommand.addListener(handleCommands);
 
+// const stringToFunctionMap = {
+// 	'sortByAge': sortByAge,
+// 	'sortByUrl': sortByUrl,
+// 	'mergeWindows': mergeWindows,
+// 	'extractDomain': extractDomain,
+// 	'sortByNumDomain': sortByNumDomain,
+// 	'splitWindow': splitWindow,
+// 	'closeTabsLeft': closeTabsLeft,
+// 	'closeTabsRight': closeTabsRight,
+// 	'closeAllExceptCurrentTab': closeAllExceptCurrentTab,
+// 	// Commands
+// 	'duplicateTab': duplicateTab,
+// 	'pinTab': togglePinTab,
+// 	'moveSelectedTabsToNextWindow': moveSelectedTabsToNextWindow,
+// }
+
 function handleMessages(message, sender) {
-	console.info('Received message:', message)
+	console.info('Received message:', message);
 	console.info('Sender:', sender);
 	
 	const messageHandled = functionNameSwitch(message.action);
@@ -15,21 +31,12 @@ function handleMessages(message, sender) {
 }
 
 function handleCommands(command){
-	console.info('Received command:', command)
+	console.info('Received command:', command);
 	
 	const commandHandled = functionNameSwitch(command);
 	
 	if (commandHandled === false){
-		switch(command){
-			case 'duplicateTab':
-			duplicateTab();
-			break;
-			case 'pinTab':
-			togglePinTab();
-			break;
-			default:
-			console.error('Unhandled command:', command);
-		}
+		console.error('Unhandled command:', command);
 	}
 }
 
@@ -64,13 +71,24 @@ function functionNameSwitch(functionNameAsString){
 		case 'closeAllExceptCurrentTab':
 		closeAllExceptCurrentTab();
 		break;
+		// Commands
+		case 'duplicateTab':
+		duplicateTab();
+		break;
+		case 'pinTab':
+		togglePinTab();
+		break;
+		case 'moveSelectedTabsToNextWindow':
+		moveSelectedTabsToNextWindow();
+		break;
 		default:
+		
 		return false;
 	}
 }
 
 function sortByAge(){
-	chrome.tabs.query({currentWindow: true, pinned: false}, function (tabs){
+	chrome.tabs.query({lastFocusedWindow: true, pinned: false}, function (tabs){
 		tabs.sort(function(a, b){
 			return a.id - b.id;
 		});
@@ -82,7 +100,7 @@ function sortByAge(){
 }
 
 function sortByUrl(){
-	chrome.tabs.query({currentWindow: true, pinned: false}, function(tabs){
+	chrome.tabs.query({lastFocusedWindow: true, pinned: false}, function(tabs){
 		tabs.forEach(function(tab){
 			tab.url = getDomain(tab.url);
 		});
@@ -103,7 +121,7 @@ function sortByUrl(){
 }
 
 function sortByNumDomain() {
-	chrome.tabs.query({ currentWindow: true, pinned: false, windowType: 'normal' }, function (tabs) {
+	chrome.tabs.query({ lastFocusedWindow: true, pinned: false, windowType: 'normal' }, function (tabs) {
 		var domainTabIds = {};
 		tabs.forEach(function (tab) {
 			tab.domain = getBaseUrl(tab.url);
@@ -161,7 +179,7 @@ function getDomain(url){
 
 function mergeWindows(){
 	chrome.tabs.query({ lastFocusedWindow: true, active: true }, function(currentTabs){
-		chrome.tabs.query({currentWindow: false }, function(otherWindowTabs){
+		chrome.tabs.query({lastFocusedWindow: false }, function(otherWindowTabs){
 			const tabIds = otherWindowTabs.map(tab => tab.id);
 			chrome.tabs.move(tabIds, {windowId: currentTabs[0].windowId, index: -1});
 		});
@@ -169,7 +187,7 @@ function mergeWindows(){
 }
 
 function extractDomain() {
-	chrome.tabs.query({ currentWindow: true, active: true }, function (currentActiveTabs) {
+	chrome.tabs.query({ lastFocusedWindow: true, active: true }, function (currentActiveTabs) {
 		var currentTab = currentActiveTabs[0];
 		var baseUrl = getBaseUrl(currentTab.url);
 		// TODO: state maximized bad code, rather get from currentWindow state
@@ -187,18 +205,18 @@ function extractDomain() {
 }
 
 function splitWindow(){
-	chrome.tabs.query({ currentWindow: true }, function(currentWindowTabs){
+	chrome.tabs.query({ lastFocusedWindow: true, windowType: 'normal' }, function(topWindowTabs){
 		let tabsToMove = [];
 		let currentTabId;
 		
 		// TODO: ugly, but best way?
-		for(let i = currentWindowTabs.length - 1; i > 0; i--){
-			if(currentWindowTabs[i].active){
-				currentTabId = currentWindowTabs[i].id;
+		for(let i = topWindowTabs.length - 1; i > 0; i--){
+			if(topWindowTabs[i].active){
+				currentTabId = topWindowTabs[i].id;
 				break;
 			}
 			else {
-				tabsToMove.push(currentWindowTabs[i].id);
+				tabsToMove.push(topWindowTabs[i].id);
 			}
 		}
 		
@@ -262,13 +280,40 @@ function closeAllExceptCurrentTab(){
 }
 
 function togglePinTab(){
-	chrome.tabs.query({ currentWindow: true, highlighted: true}, function(currentTabs){
+	chrome.tabs.query({ lastFocusedWindow: true, highlighted: true}, function(currentTabs){
 		currentTabs.forEach(tab => chrome.tabs.update(tab.id, { pinned: !tab.pinned })); 
 	});
 }
 
 function duplicateTab(){
-	chrome.tabs.query({ currentWindow: true, highlighted: true}, function(currentTabs){
+	chrome.tabs.query({ lastFocusedWindow: true, highlighted: true}, function(currentTabs){
 		currentTabs.forEach(tab => chrome.tabs.duplicate(tab.id));
+	});
+}
+
+// TODO: incomplete
+function extractSelectedTabs() {
+	const query = { lastFocusedWindow: true, highlighted: true, windowType: 'normal' };
+	chrome.tabs.query(query, function (tabsToBeExtracted) {
+		chrome.windows.create({ tabId: currentTab.id, focused: true, state: "maximized" }, function(newWindow){
+			tabs.forEach(function(tab){
+				chrome.tabs.move(tab.id, { windowId: newWindow.id, index: -1 });
+			});
+		});
+	});
+}
+
+function moveSelectedTabsToNextWindow(){
+	const query = { lastFocusedWindow: true, highlighted: true, windowType: 'normal' };
+	chrome.tabs.query(query, function (tabsToMove) {
+		chrome.windows.getAll({ populate: false, windowTypes: ['normal'] }, function(allWindows){
+			const nextWindow = allWindows.find(window => !window.focused);
+			
+			const tabIdsToMove = tabsToMove.map(tab => tab.id);
+			chrome.tabs.move(tabIdsToMove, { windowId: nextWindow.id, index: -1}, function(movedTabs){
+				movedTabs.forEach(tab => chrome.tabs.update(tab.id, { highlighted: true, }));
+				chrome.windows.update(nextWindow.id, { focused: true })
+			});	
+		});
 	});
 }
