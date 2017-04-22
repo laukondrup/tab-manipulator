@@ -3,29 +3,30 @@
 chrome.runtime.onMessage.addListener(handleMessages);
 chrome.commands.onCommand.addListener(handleCommands);
 
-// const stringToFunctionMap = {
-// 	'sortByAge': sortByAge,
-// 	'sortByUrl': sortByUrl,
-// 	'mergeWindows': mergeWindows,
-// 	'extractDomain': extractDomain,
-// 	'sortByNumDomain': sortByNumDomain,
-// 	'splitWindow': splitWindow,
-// 	'closeTabsLeft': closeTabsLeft,
-// 	'closeTabsRight': closeTabsRight,
-// 	'closeAllExceptCurrentTab': closeAllExceptCurrentTab,
-// 	// Commands
-// 	'duplicateTab': duplicateTab,
-// 	'pinTab': togglePinTab,
-// 	'moveSelectedTabsToNextWindow': moveSelectedTabsToNextWindow,
-// }
+const stringToFunctionMap = {
+	'sortByAge': sortByAge,
+	'sortByUrl': sortByUrl,
+	'mergeWindows': mergeWindows,
+	'extractDomain': extractDomain,
+	'sortByNumDomain': sortByNumDomain,
+	'splitWindow': splitWindow,
+	'closeTabsLeft': closeTabsLeft,
+	'closeTabsRight': closeTabsRight,
+	'closeAllExceptCurrentTab': closeAllExceptCurrentTab,
+	// Commands
+	'duplicateTab': duplicateTab,
+	'pinTab': togglePinTab,
+	'moveSelectedTabsToNextWindow': moveSelectedTabsToNextWindow,
+};
 
 function handleMessages(message, sender) {
 	console.info('Received message:', message);
 	console.info('Sender:', sender);
 	
-	const messageHandled = functionNameSwitch(message.action);
-	
-	if (messageHandled === false){
+	if(stringToFunctionMap){
+		stringToFunctionMap[message.action]();
+	}
+	else {
 		console.error('Unhandled message:', message);
 	}
 }
@@ -33,57 +34,11 @@ function handleMessages(message, sender) {
 function handleCommands(command){
 	console.info('Received command:', command);
 	
-	const commandHandled = functionNameSwitch(command);
-	
-	if (commandHandled === false){
-		console.error('Unhandled command:', command);
+	if(stringToFunctionMap){
+		stringToFunctionMap[message.action]();
 	}
-}
-
-// TODO: find a better name
-function functionNameSwitch(functionNameAsString){
-	switch(functionNameAsString){
-		// TODO: Find out how this can be done smarter
-		case 'sortByAge':
-		sortByAge();
-		break;
-		case 'sortByUrl':
-		sortByUrl();
-		break;
-		case 'mergeWindows':
-		mergeWindows();
-		break;
-		case 'extractDomain':
-		extractDomain();
-		break;
-		case 'sortByNumDomain':
-		sortByNumDomain();
-		break;
-		case 'splitWindow':
-		splitWindow();
-		break;
-		case 'closeTabsLeft':
-		closeTabsLeft();
-		break;
-		case 'closeTabsRight':
-		closeTabsRight();
-		break;
-		case 'closeAllExceptCurrentTab':
-		closeAllExceptCurrentTab();
-		break;
-		// Commands
-		case 'duplicateTab':
-		duplicateTab();
-		break;
-		case 'pinTab':
-		togglePinTab();
-		break;
-		case 'moveSelectedTabsToNextWindow':
-		moveSelectedTabsToNextWindow();
-		break;
-		default:
-		
-		return false;
+	else {
+		console.error('Unhandled message:', message);
 	}
 }
 
