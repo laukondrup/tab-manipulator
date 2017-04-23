@@ -1,6 +1,6 @@
 {
   "name": "Tab Manipulator",
-  "description": "Sort tabs, merge windows, extract domain and other tab manipulation.",
+  "description": "Sort tabs, manage windows and close tabs the way most editors do.",
   "version": "1.0",
   "author": "Lau Kondrup",
   "homepage_url": "https://github.com/LK28/tab-manipulator",
@@ -9,14 +9,18 @@
   },
   "permissions": [
     "tabs"
-    // "bookmarks"
   ],
+  "offline_enabled": true,
   "background": {
     "scripts": ["background.js"],
     "persistent": false
   },
   "manifest_version": 2,
   "commands": {
+    // "_execute_browser_action": {
+    //   "suggested_key": {
+    //   }
+    // },
     "sortByAge": {
       "suggested_key": {
         "default": "Shift+Alt+A",
