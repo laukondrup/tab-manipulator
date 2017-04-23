@@ -1,0 +1,26 @@
+{
+  "name": "tab-manipulator",
+  "version": "1.0.0",
+  "description": "My first chrome extension. The goal is to transition into being a full fledged tab/bookmark manager. Yet another tab manager huh.. How is this one any different from the other 1000?",
+  "main": "background.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LK28/tab-manipulator.git"
+  },
+  "author": "Lau Kondrup",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LK28/tab-manipulator/issues"
+  },
+  "homepage": "https://github.com/LK28/tab-manipulator#readme",
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.3"
+  }
+}
