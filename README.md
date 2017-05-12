@@ -1,11 +1,12 @@
 # Tab Manipulator
 
-A Chrome Extension that sorts tabs, manages windows and closes tabs the way most editors do.
+> A Chrome Extension that sorts tabs, manages windows and closes tabs the way most editors do.
 
 ![Tab Manipulator](http://imgur.com/xDNF5go.png)
 
 ## Features
 
+- [x] **Keyboard shortcuts** for each feature: go to [**extensions**](chrome://extensions/) at the bottom click **Keyboard shortcuts**
 - [x] **Sort tabs by age**: shortcut `a` while the popup is open
 - [x] **Sort tabs by URL**: shortcut `u`while the popup is open
 - [x] **Sort by number of domain open**: sorts tabs in ascending order by the number of tabs with the same domain open
@@ -15,10 +16,11 @@ A Chrome Extension that sorts tabs, manages windows and closes tabs the way most
 - [x] **Close tabs left**
 - [x] **Close tabs right** (works well with custom user sort)
 - [x] **Close all but this tab**
-- [x] **Keyboard shortcuts** for each feature: go to [**extensions**](chrome://extensions/) at the bottom click **Keyboard shortcuts**
-  - [x] Also for shortcuts for **pin** and **duplicate** highlighted tabs
-
-## Contributing
+- [x] **Extract highlighted tabs**
+- [x] **Pin highlighted tabs**
+- [x] **Duplicate highlighted tabs**
+- [x] **Reverse sort**
+- [x] **Reload highlighted tabs**
 
 ## Feature considerations
 
