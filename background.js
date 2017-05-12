@@ -167,15 +167,16 @@ const closeTabsRight = function closeTabsRight() {
 };
 
 const closeAllExceptCurrentTab = function closeAllExceptCurrentTab() {
-  chrome.tabs.query({ lastFocusedWindow: true, active: false }, (tabsToClose) => {
+  chrome.tabs.query({ lastFocusedWindow: true, active: false, windowType: 'normal' }, (tabsToClose) => {
     const tabIdsToClose = tabsToClose.map(t => t.id);
     chrome.tabs.remove(tabIdsToClose);
   });
 };
 
 const togglePinTab = function togglePinTab() {
-  chrome.tabs.query({ lastFocusedWindow: true, highlighted: true }, (currentTabs) => {
-    currentTabs.forEach(tab => chrome.tabs.update(tab.id, { pinned: !tab.pinned }));
+  chrome.tabs.query({ lastFocusedWindow: true, highlighted: true, windowType: 'normal' }, (currentTabs) => {
+    const newPinnedStatus = !currentTabs[0].pinned;
+    currentTabs.forEach(tab => chrome.tabs.update(tab.id, { pinned: newPinnedStatus }));
   });
 };
 
