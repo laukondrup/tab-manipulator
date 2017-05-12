@@ -2,6 +2,34 @@
 
 // chrome.tabs.create({url:"popup.html"})
 
+
+// TODO: clean up a bit
+/**
+* Returns the URL with http(s):// removed
+*/
+function getDomain(url) {
+  let splitUrl = url.split('://');
+  if (splitUrl.length === 2) {
+    url = splitUrl[1];
+  }
+  splitUrl = url.split('www.');
+  if (splitUrl.length === 2) {
+    url = splitUrl[1];
+  }
+  return url;
+}
+
+
+// TODO: clean up a bit
+function getBaseUrl(url) {
+  url = getDomain(url).split('/');
+  // example.com
+  if (url.length > 1) {
+    return url[0];
+  }
+  return url;
+}
+
 function sortByAge() {
   chrome.tabs.query({ lastFocusedWindow: true, pinned: false }, (tabs) => {
     tabs.sort((a, b) => a.id - b.id);
@@ -57,30 +85,6 @@ function sortByNumDomain() {
 
     chrome.tabs.move(tabIds, { index: -1 });
   });
-}
-
-function getBaseUrl(url) {
-  url = getDomain(url).split('/');
-  // example.com
-  if (url.length > 1) {
-    return url[0];
-  }
-  return url;
-}
-
-/**
-* Returns the URL with http(s):// removed
-*/
-function getDomain(url) {
-  let splitUrl = url.split('://');
-  if (splitUrl.length === 2) {
-    url = splitUrl[1];
-  }
-  splitUrl = url.split('www.');
-  if (splitUrl.length === 2) {
-    url = splitUrl[1];
-  }
-  return url;
 }
 
 const mergeWindows = function mergeWindows() {
@@ -187,13 +191,16 @@ const duplicateTab = function duplicateTab() {
   });
 };
 
-// TODO: incomplete
+// TODO: remember pinned - and highlighted?
 const extractSelectedTabs = function extractSelectedTabs() {
-  const query = { lastFocusedWindow: true, highlighted: true, windowType: 'normal' };
-  chrome.tabs.query(query, (tabsToBeExtracted) => {
-    chrome.windows.create({ tabId: currentTab.id, focused: true, state: 'maximized' }, (newWindow) => {
+  chrome.tabs.query({ highlighted: true, lastFocusedWindow: true, windowType: 'normal' }, (tabsToBeExtracted) => {
+    chrome.windows.create({ tabId: tabsToBeExtracted[0].id, focused: true, state: 'maximized' }, (newWindow) => {
+      // tabsToBeExtracted = tabsToBeExtracted.shift();
+      tabsToBeExtracted.splice(0, 1);
       tabsToBeExtracted.forEach((tab) => {
-        chrome.tabs.move(tab.id, { windowId: newWindow.id, index: -1 });
+        chrome.tabs.move(tab.id, { windowId: newWindow.id, index: -1 }, () => {
+          chrome.tabs.update({ highlighted: tab.highlighted, pinned: tab.pinned });
+        });
       });
     });
   });
@@ -244,9 +251,10 @@ const stringToFunctionMap = {
   // Commands
   duplicateTab,
   reload,
-  pinTab: togglePinTab,
+  togglePinTab,
   moveSelectedTabsToNextWindow,
   reverseSort,
+  extractSelectedTabs,
 };
 
 const handleMessages = function handleMessages(message, sender) {

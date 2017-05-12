@@ -74,11 +74,14 @@
     "duplicateTab": {
       "description": "Duplicate all highlighted tabs"
     },
-    "pinTab": {
+    "togglePinTab": {
       "description": "Toggle pin highlighted tabs"
     },
     "reverseSort": {
       "description": "Reverse sort all tabs"
+    },
+    "extractSelectedTabs": {
+      "description": "Extracts all highlighted tabs"
     }
   }
 }
