@@ -21,6 +21,9 @@
     //   "suggested_key": {
     //   }
     // },
+    "reload": {
+      "description": "Reloads all selected tabs"
+    },
     "sortByAge": {
       "suggested_key": {
         "default": "Shift+Alt+A",

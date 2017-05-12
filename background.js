@@ -1,3 +1,5 @@
+/// <reference path="typings/globals/chrome/index.d.ts" />
+
 // chrome.tabs.create({url:"popup.html"})
 
 function sortByAge() {
@@ -165,16 +167,8 @@ const closeTabsRight = function closeTabsRight() {
 };
 
 const closeAllExceptCurrentTab = function closeAllExceptCurrentTab() {
-  chrome.tabs.query({ lastFocusedWindow: true }, (currentWindowTabs) => {
-    const tabIdsToClose = [];
-
-    for (let i = 0; i < currentWindowTabs.length; i++) {
-      if (currentWindowTabs[i].active) {
-        continue;
-      } else {
-        tabIdsToClose.push(currentWindowTabs[i].id);
-      }
-    }
+  chrome.tabs.query({ lastFocusedWindow: true, active: false }, (tabsToClose) => {
+    const tabIdsToClose = tabsToClose.map(t => t.id);
     chrome.tabs.remove(tabIdsToClose);
   });
 };
@@ -219,6 +213,15 @@ const moveSelectedTabsToNextWindow = function moveSelectedTabsToNextWindow() {
   });
 };
 
+const reload = function reload() {
+  const query = { lastFocusedWindow: true, highlighted: true, windowType: 'normal' };
+  chrome.tabs.query(query, (tabsToReload) => {
+    tabsToReload.forEach((tab) => {
+      chrome.tabs.reload(tab.id);
+    });
+  });
+};
+
 // TODO: is this necessary?
 const stringToFunctionMap = {
   sortByAge,
@@ -232,6 +235,7 @@ const stringToFunctionMap = {
   closeAllExceptCurrentTab,
   // Commands
   duplicateTab,
+  reload,
   pinTab: togglePinTab,
   moveSelectedTabsToNextWindow,
 };
