@@ -223,6 +223,13 @@ const reload = function reload() {
   });
 };
 
+const reverseSort = function reverseSort() {
+  chrome.tabs.query({ lastFocusedWindow: true, windowType: 'normal' }, (tabs) => {
+    const tabIds = tabs.map(x => x.id).reverse();
+    chrome.tabs.move(tabIds, { index: -1 });
+  });
+};
+
 // TODO: is this necessary?
 const stringToFunctionMap = {
   sortByAge,
@@ -239,6 +246,7 @@ const stringToFunctionMap = {
   reload,
   pinTab: togglePinTab,
   moveSelectedTabsToNextWindow,
+  reverseSort,
 };
 
 const handleMessages = function handleMessages(message, sender) {
