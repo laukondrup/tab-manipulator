@@ -1,7 +1,4 @@
-/// <reference path="typings/globals/chrome/index.d.ts" />
-
 // chrome.tabs.create({url:"popup.html"})
-
 
 // TODO: clean up a bit
 /**

@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/LK28/tab-manipulator#readme",
   "devDependencies": {
+    "@types/chrome": "0.0.46",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^14.1.0",
     "eslint-plugin-import": "^2.2.0",
