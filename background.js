@@ -237,6 +237,21 @@ const reverseSort = function reverseSort() {
   });
 };
 
+// TODO: trim url eg. url.com#header1?
+const closeDuplicates = function closeDuplicates() {
+  chrome.tabs.query({ lastFocusedWindow: true, windowType: 'normal' }, (tabs) => {
+    const duplicateTabs = tabs.filter((tab, index, inputArray) => {
+      return inputArray.map(x => x.url).indexOf(tab.url) !== index;
+    });
+
+    duplicateTabs.forEach((tab) => {
+      const notiQuery = { message: tab.url, type: 'basic', iconUrl: 'images/favicon.png', title: 'Closed duplicate tab' };
+      chrome.notifications.create(notiQuery);
+      chrome.tabs.remove(tab.id);
+    });
+  });
+};
+
 // TODO: is this necessary?
 const stringToFunctionMap = {
   sortByAge,
@@ -255,6 +270,7 @@ const stringToFunctionMap = {
   moveSelectedTabsToNextWindow,
   reverseSort,
   extractSelectedTabs,
+  closeDuplicates,
 };
 
 const handleMessages = function handleMessages(message, sender) {

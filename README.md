@@ -7,20 +7,21 @@
 ## Features
 
 - [x] **Keyboard shortcuts** for each feature: go to [**extensions**](chrome://extensions/) at the bottom click **Keyboard shortcuts**
-- [x] **Sort tabs by age**: shortcut `a` while the popup is open
-- [x] **Sort tabs by URL**: shortcut `u`while the popup is open
-- [x] **Sort by number of domain open**: sorts tabs in ascending order by the number of tabs with the same domain open
-- [x] **Merge windows**: combines all chrome windows
-- [x] **Extract domain**: moves all tabs with the same domain as the current one to a new window
-- [x] **Split window**: moves the current tab and all tabs to the right of it to a new window
+- [x] **Close all but this tab**
+- [x] **Close duplicate tabs**
 - [x] **Close tabs left**
 - [x] **Close tabs right** (works well with custom user sort)
-- [x] **Close all but this tab**
-- [x] **Extract highlighted tabs**
-- [x] **Pin highlighted tabs**
 - [x] **Duplicate highlighted tabs**
-- [x] **Reverse sort**
+- [x] **Extract domain**: moves all tabs with the same domain as the current one to a new window
+- [x] **Extract highlighted tabs**
+- [x] **Merge windows**: combines all chrome windows
+- [x] **Pin highlighted tabs**
 - [x] **Reload highlighted tabs**
+- [x] **Reverse sort**
+- [x] **Sort by number of domain open**: sorts tabs in ascending order by the number of tabs with the same domain open
+- [x] **Sort tabs by age**: shortcut `a` while the popup is open
+- [x] **Sort tabs by URL**: shortcut `u`while the popup is open
+- [x] **Split window**: moves the current tab and all tabs to the right of it to a new window
 
 ## Feature considerations
 
@@ -51,7 +52,6 @@ This is mostly brainstorming. A lot of these probably belong in another extensio
 - Window **tab rules**
   - Assign domain/URL to a **category** (ie. productive)
   - Window allow only 'Productive' or move to other window
-- Close duplicates
 - Always open tab to the right checkbox
 
 

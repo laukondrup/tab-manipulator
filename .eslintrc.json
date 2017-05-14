@@ -5,6 +5,7 @@
           "webextensions": true
       },
       "rules": {
-        "no-plusplus": "off"
+        "no-plusplus": "off",
+        "spaced-comment": "off"
       }
 }

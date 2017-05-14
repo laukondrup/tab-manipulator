@@ -8,7 +8,8 @@
     "default_popup": "popup.html"
   },
   "permissions": [
-    "tabs"
+    "tabs",
+    "notifications"
   ],
   "offline_enabled": true,
   "background": {
@@ -82,6 +83,9 @@
     },
     "extractSelectedTabs": {
       "description": "Extracts all highlighted tabs"
+    },
+    "closeDuplicates" : {
+      "description": "Close duplicates"
     }
   }
 }
