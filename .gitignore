@@ -4,5 +4,3 @@ node_modules/
 Desktop.ini
 Thumbs.db
 *.DS_Store
-
-typings/

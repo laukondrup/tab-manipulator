@@ -6,6 +6,7 @@
       },
       "rules": {
         "no-plusplus": "off",
-        "spaced-comment": "off"
+        "spaced-comment": "off",
+        "no-console": "off"
       }
 }

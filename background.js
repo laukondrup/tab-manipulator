@@ -2,9 +2,9 @@
 
 // TODO: clean up a bit
 /**
-* Returns the URL with http(s):// removed
+* Returns the URL with http(s):// and www removed
 */
-function getDomain(url) {
+const getDomain = function getDomain(url) {
   let splitUrl = url.split('://');
   if (splitUrl.length === 2) {
     url = splitUrl[1];
@@ -18,14 +18,14 @@ function getDomain(url) {
 
 
 // TODO: clean up a bit
-function getBaseUrl(url) {
-  url = getDomain(url).split('/');
+const getBaseUrl = function getBaseUrl(url) {
+  const baseUrl = getDomain(url).split('/');
   // example.com
-  if (url.length > 1) {
-    return url[0];
+  if (baseUrl.length > 1) {
+    return baseUrl[0];
   }
-  return url;
-}
+  return baseUrl;
+};
 
 function sortByAge() {
   chrome.tabs.query({ lastFocusedWindow: true, pinned: false }, (tabs) => {
@@ -55,7 +55,7 @@ function sortByUrl() {
   });
 }
 
-function sortByNumDomain() {
+const sortByNumDomain = function sortByNumDomain() {
   chrome.tabs.query({ lastFocusedWindow: true, pinned: false, windowType: 'normal' }, (tabs) => {
     const domainTabIds = {};
     tabs.forEach((tab) => {
@@ -82,7 +82,7 @@ function sortByNumDomain() {
 
     chrome.tabs.move(tabIds, { index: -1 });
   });
-}
+};
 
 const mergeWindows = function mergeWindows() {
   chrome.tabs.query({ lastFocusedWindow: true, active: true }, (currentTabs) => {
