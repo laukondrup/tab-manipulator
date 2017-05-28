@@ -184,7 +184,7 @@ const togglePinTab = function togglePinTab() {
 const duplicateTab = function duplicateTab() {
   chrome.tabs.query({ lastFocusedWindow: true, highlighted: true }, (currentTabs) => {
     // TODO: Consider if it's better to use c.t.create, with active: false
-    currentTabs.forEach(tab => chrome.tabs.duplicate(tab.id));
+    currentTabs.forEach(tab => chrome.tabs.create({ url: tab.url, active: false, pinned: tab.pinned, index: tab.index + 1 }));
   });
 };
 
@@ -248,6 +248,7 @@ const closeDuplicates = function closeDuplicates() {
     });
   });
 };
+
 
 // TODO: is this necessary?
 const stringToFunctionMap = {
