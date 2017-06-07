@@ -1,10 +1,3 @@
-// TODO: DEV MODE REFRESH
-// setTimeout(function(){
-//    window.location.reload();
-// }, 2000);
-
-// chrome.tabs.create({url: 'popup.html'});
-
 function sendMessage(message) {
   chrome.runtime.sendMessage({ action: message }, (response) => {
     console.log('MessageResponse: ', response);
