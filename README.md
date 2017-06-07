@@ -23,36 +23,5 @@
 - [x] **Sort tabs by URL**: shortcut `u`while the popup is open
 - [x] **Split window**: moves the current tab and all tabs to the right of it to a new window
 
-## Feature considerations
-
-This is mostly brainstorming. A lot of these probably belong in another extension.
-
-- Extension icon
-- Ability to undo previous action (merge, extract)
-  - No way to do perfect? How to remember extract window location?
-- Omnibar commands?
-- Bookmarks folder stacks, think OneTab
-  - Workflow: switch device? Create stack that will close and bookmark and tabs into user-defined-folder/date|user-defined-title. Date prefix recommended for sorting purposes
-- Vertical tab-layout
-  - Drag and drop sort
-  - Search tabs (url, title)
-  - Close tabs
-  - Windows-like selection (ctrl, shift)
-  - Easy window management
-  - Tree structure (openerId) `option`
-- _Synchronize open tabs on different devices_
-- __Bookmark features__
-  - Sessions
-- Open tab groups to pin
-- _Launchy/Vimium like interface_
-- User-defined sort based on regex matching urls and assigning letters to them, like TabGrouper used to do
-- Rename current tab in window (rename or prefix). ie. to indicate [DEV] window or [Study] window etc. (assign string to windowId)
-- Move active tab group one group to the left/right
-- Custom sort pinned tabs
-- Window **tab rules**
-  - Assign domain/URL to a **category** (ie. productive)
-  - Window allow only 'Productive' or move to other window
-- Always open tab to the right checkbox
-
 
 
