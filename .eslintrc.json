@@ -3,11 +3,5 @@
       "env": {
           "browser": true,
           "webextensions": true
-      },
-      "rules": {
-        "no-plusplus": "off",
-        "spaced-comment": "off",
-        "no-console": "off",
-        "max-len": "off"
       }
 }
