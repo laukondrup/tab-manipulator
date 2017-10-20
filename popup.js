@@ -1,24 +1,26 @@
-function sendMessage(message) {
+function sendMessage (message) {
   chrome.runtime.sendMessage({ action: message }, (response) => {
-    console.log('MessageResponse: ', response);
-  });
+    console.log('MessageResponse: ', response)
+  })
 }
 
-const actionElements = document.getElementsByClassName('action');
+const actionElements = document.getElementsByClassName('action')
 
 for (const key in actionElements) {
-  const action = actionElements[key];
-  action.onclick = () => sendMessage(action.id);
+  const action = actionElements[key]
+  action.onclick = () => sendMessage(action.id)
 }
 
 window.onkeyup = function (e) {
-  if (e.shiftKey || e.ctrlKey) { return; }
+  if (e.shiftKey || e.ctrlKey) { return }
 
   if (e.key === 'a') {
-    sendMessage('sortByAge');
+    sendMessage('sortByAge')
   } else if (e.key === 'u') {
-    sendMessage('sortByUrl');
+    sendMessage('sortByUrl')
   } else if (e.key === 'd') {
-    sendMessage('sortByNumDomain');
+    sendMessage('sortByNumDomain')
+  } else if (e.key === 'r') {
+    sendMessage('reverseSort')
   }
-};
+}
