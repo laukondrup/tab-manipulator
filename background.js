@@ -4,125 +4,124 @@
 /**
 * Returns the URL with http(s):// and www removed
 */
-const getDomain = function getDomain(url) {
-  let splitUrl = url.split('://');
+function getDomain (url) {
+  let splitUrl = url.split('://')
   if (splitUrl.length === 2) {
-    url = splitUrl[1];
+    url = splitUrl[1]
   }
-  splitUrl = url.split('www.');
+  splitUrl = url.split('www.')
   if (splitUrl.length === 2) {
-    url = splitUrl[1];
+    url = splitUrl[1]
   }
-  return url;
+  return url
 }
-
 
 // TODO: clean up a bit
-const getBaseUrl = function getBaseUrl(url) {
-  const baseUrl = getDomain(url).split('/');
+function getBaseUrl (url) {
+  const baseUrl = getDomain(url).split('/')
   // example.com
   if (baseUrl.length > 1) {
-    return baseUrl[0];
+    return baseUrl[0]
   }
-  return baseUrl;
-};
-
-function sortByAge() {
-  chrome.tabs.query({ lastFocusedWindow: true, pinned: false }, (tabs) => {
-    tabs.sort((a, b) => a.id - b.id);
-
-    const tabIds = tabs.map(tab => tab.id);
-    chrome.tabs.move(tabIds, { index: -1 });
-  });
+  return baseUrl
 }
 
-function sortByUrl() {
+function sortByAge () {
+  chrome.tabs.query({ lastFocusedWindow: true, pinned: false }, (tabs) => {
+    tabs.sort((a, b) => a.id - b.id)
+
+    const tabIds = tabs.map(tab => tab.id)
+    chrome.tabs.move(tabIds, { index: -1 })
+  })
+}
+
+function sortByUrl () {
   chrome.tabs.query({ lastFocusedWindow: true, pinned: false }, (tabs) => {
     tabs.forEach((tab) => {
-      tab.url = getDomain(tab.url);
-    });
+      tab.url = getDomain(tab.url)
+    })
     tabs.sort((a, b) => {
       if (a.url > b.url) {
-        return 1;
+        return 1
       }
       if (a.url < b.url) {
-        return -1;
+        return -1
       }
-      return 0;
-    });
-    const tabIds = tabs.map(tab => tab.id);
-    chrome.tabs.move(tabIds, { index: -1 });
-  });
+      return 0
+    })
+    const tabIds = tabs.map(tab => tab.id)
+    chrome.tabs.move(tabIds, { index: -1 })
+  })
 }
 
-const sortByNumDomain = function sortByNumDomain() {
+function sortByNumDomain () {
   chrome.tabs.query({ lastFocusedWindow: true, pinned: false, windowType: 'normal' }, (tabs) => {
-    const domainTabIds = {};
+    const domainTabIds = {}
     tabs.forEach((tab) => {
-      tab.domain = getBaseUrl(tab.url);
-      domainTabIds[tab.domain] = [];
-    });
+      tab.domain = getBaseUrl(tab.url)
+      domainTabIds[tab.domain] = []
+    })
 
     tabs.forEach((tab) => {
-      const tabIds = domainTabIds[tab.domain];
-      tabIds.push(tab.id);
-    });
+      const tabIds = domainTabIds[tab.domain]
+      tabIds.push(tab.id)
+    })
 
-    const tabIds = [];
+    const tabIds = []
 
-    const sortedDomains = Object.keys(domainTabIds).sort((a, b) => domainTabIds[a].length - domainTabIds[b].length);
+    const sortedDomains = Object.keys(domainTabIds).sort((a, b) => domainTabIds[a].length - domainTabIds[b].length)
 
     for (const key in sortedDomains) {
-      const partTabIds = domainTabIds[sortedDomains[key]];
+      const partTabIds = domainTabIds[sortedDomains[key]]
 
       for (const key in partTabIds) {
-        tabIds.push(partTabIds[key]);
+        tabIds.push(partTabIds[key])
       }
     }
 
-    chrome.tabs.move(tabIds, { index: -1 });
-  });
-};
+    chrome.tabs.move(tabIds, { index: -1 })
+  })
+}
 
-const mergeWindows = function mergeWindows() {
+function mergeWindows () {
   chrome.tabs.query({ lastFocusedWindow: true, active: true }, (currentTabs) => {
     chrome.tabs.query({ lastFocusedWindow: false }, (otherWindowTabs) => {
-      const tabIds = otherWindowTabs.map(tab => tab.id);
-      chrome.tabs.move(tabIds, { windowId: currentTabs[0].windowId, index: -1 });
-    });
-  });
-};
+      const tabIds = otherWindowTabs.map(tab => tab.id)
+      chrome.tabs.move(tabIds, { windowId: currentTabs[0].windowId, index: -1 })
+    })
+  })
+}
 
-const extractDomain = function extractDomain() {
+function extractDomain () {
   chrome.tabs.query({ lastFocusedWindow: true, active: true }, (currentActiveTabs) => {
-    const currentTab = currentActiveTabs[0];
-    const baseUrl = getBaseUrl(currentTab.url);
+    const currentTab = currentActiveTabs[0]
+    const baseUrl = getBaseUrl(currentTab.url)
     // TODO: state maximized bad code, rather get from currentWindow state
     chrome.windows.create({ tabId: currentTab.id, focused: true, state: 'maximized' }, (newWindow) => {
       chrome.tabs.query({ currentWindow: false, pinned: false }, (tabs) => {
         tabs.forEach((tab) => {
           if (baseUrl === getBaseUrl(tab.url)) {
-            chrome.tabs.move(tab.id, { windowId: newWindow.id, index: -1 });
+            chrome.tabs.move(tab.id, { windowId: newWindow.id, index: -1 })
           }
-        });
-      });
-    });
-    chrome.tabs.update(currentTab.id, { pinned: currentTab.pinned });
-  });
-};
+        })
+      })
+    })
+    chrome.tabs.update(currentTab.id, { pinned: currentTab.pinned })
+  })
+}
 
-const splitWindow = function splitWindow() {
+function splitWindow () {
   chrome.tabs.query({ lastFocusedWindow: true, windowType: 'normal' }, (topWindowTabs) => {
-    const tabsToMove = [];
-    let currentTabId;
+    const tabsToMove = []
+    let currentTabId
 
     // TODO: ugly, but best way?
     for (let i = topWindowTabs.length - 1; i > 0; i--) {
       if (topWindowTabs[i].active) {
-        currentTabId = topWindowTabs[i].id;
-        break;
+        currentTabId = topWindowTabs[i].id
+        break
       } else {
-        tabsToMove.push(topWindowTabs[i].id);
+        tabsToMove.push(topWindowTabs[i].id)
       }
     }
 
@@ -130,125 +129,123 @@ const splitWindow = function splitWindow() {
     // Does chrome really not have a smart way to remember pinned status?
     // How do I make this part wait for the upper part?
     chrome.windows.create({ tabId: currentTabId, focused: true, state: 'maximized' }, (newWindow) => {
-      chrome.tabs.move(tabsToMove, { windowId: newWindow.id, index: -1 });
-    });
-  });
-};
+      chrome.tabs.move(tabsToMove, { windowId: newWindow.id, index: -1 })
+    })
+  })
+}
 
 // TODO: Consider how to handle pinned tabs
-const closeTabsLeft = function closeTabsLeft() {
+function closeTabsLeft () {
   chrome.tabs.query({ lastFocusedWindow: true }, (currentWindowTabs) => {
-    const tabIdsToClose = [];
+    const tabIdsToClose = []
 
     for (let i = 0; i < currentWindowTabs.length; i++) {
       if (currentWindowTabs[i].active) {
-        break;
+        break
       } else {
-        tabIdsToClose.push(currentWindowTabs[i].id);
+        tabIdsToClose.push(currentWindowTabs[i].id)
       }
     }
-    chrome.tabs.remove(tabIdsToClose);
-  });
-};
+    chrome.tabs.remove(tabIdsToClose)
+  })
+}
 
 // TODO: Consider how to handle pinned tabs
-const closeTabsRight = function closeTabsRight() {
+function closeTabsRight () {
   chrome.tabs.query({ lastFocusedWindow: true }, (currentWindowTabs) => {
-    const tabIdsToClose = [];
+    const tabIdsToClose = []
 
     for (let i = currentWindowTabs.length - 1; i > 0; i--) {
       if (currentWindowTabs[i].active) {
-        break;
+        break
       } else {
-        tabIdsToClose.push(currentWindowTabs[i].id);
+        tabIdsToClose.push(currentWindowTabs[i].id)
       }
     }
-    chrome.tabs.remove(tabIdsToClose);
-  });
-};
+    chrome.tabs.remove(tabIdsToClose)
+  })
+}
 
-const closeAllExceptCurrentTab = function closeAllExceptCurrentTab() {
+function closeAllExceptCurrentTab () {
   chrome.tabs.query({ lastFocusedWindow: true, active: false, windowType: 'normal' }, (tabsToClose) => {
-    const tabIdsToClose = tabsToClose.map(t => t.id);
-    chrome.tabs.remove(tabIdsToClose);
-  });
-};
+    const tabIdsToClose = tabsToClose.map(t => t.id)
+    chrome.tabs.remove(tabIdsToClose)
+  })
+}
 
-const togglePinTab = function togglePinTab() {
+function togglePinTab () {
   chrome.tabs.query({ lastFocusedWindow: true, highlighted: true, windowType: 'normal' }, (currentTabs) => {
-    const newPinnedStatus = !currentTabs[0].pinned;
-    currentTabs.forEach(tab => chrome.tabs.update(tab.id, { pinned: newPinnedStatus }));
-  });
-};
+    const newPinnedStatus = !currentTabs[0].pinned
+    currentTabs.forEach(tab => chrome.tabs.update(tab.id, { pinned: newPinnedStatus }))
+  })
+}
 
-const duplicateTab = function duplicateTab() {
+function duplicateTab () {
   chrome.tabs.query({ lastFocusedWindow: true, highlighted: true }, (currentTabs) => {
     // TODO: Consider if it's better to use c.t.create, with active: false
-    currentTabs.forEach(tab => chrome.tabs.create({ url: tab.url, active: false, pinned: tab.pinned, index: tab.index + 1 }));
-  });
-};
+    currentTabs.forEach(tab => chrome.tabs.create({ url: tab.url, active: false, pinned: tab.pinned, index: tab.index + 1 }))
+  })
+}
 
 // TODO: remember pinned - and highlighted?
-const extractSelectedTabs = function extractSelectedTabs() {
+function extractSelectedTabs () {
   chrome.tabs.query({ highlighted: true, lastFocusedWindow: true, windowType: 'normal' }, (tabsToBeExtracted) => {
     chrome.windows.create({ tabId: tabsToBeExtracted[0].id, focused: true, state: 'maximized' }, (newWindow) => {
       // tabsToBeExtracted = tabsToBeExtracted.shift();
-      tabsToBeExtracted.splice(0, 1);
+      tabsToBeExtracted.splice(0, 1)
       tabsToBeExtracted.forEach((tab) => {
         chrome.tabs.move(tab.id, { windowId: newWindow.id, index: -1 }, () => {
-          chrome.tabs.update({ highlighted: tab.highlighted, pinned: tab.pinned });
-        });
-      });
-    });
-  });
-};
+          chrome.tabs.update({ highlighted: tab.highlighted, pinned: tab.pinned })
+        })
+      })
+    })
+  })
+}
 
-const moveSelectedTabsToNextWindow = function moveSelectedTabsToNextWindow() {
-  const query = { lastFocusedWindow: true, highlighted: true, windowType: 'normal' };
+function moveSelectedTabsToNextWindow () {
+  const query = { lastFocusedWindow: true, highlighted: true, windowType: 'normal' }
   chrome.tabs.query(query, (tabsToMove) => {
     chrome.windows.getAll({ populate: false, windowTypes: ['normal'] }, (allWindows) => {
-      const nextWindow = allWindows.find(window => !window.focused);
-
-      const tabIdsToMove = tabsToMove.map(tab => tab.id);
+      const nextWindow = allWindows.find(window => !window.focused)
+      const tabIdsToMove = tabsToMove.map(tab => tab.id)
       chrome.tabs.move(tabIdsToMove, { windowId: nextWindow.id, index: -1 }, (movedTabs) => {
-        movedTabs.forEach(tab => chrome.tabs.update(tab.id, { highlighted: true }));
-        chrome.windows.update(nextWindow.id, { focused: true });
-      });
-    });
-  });
-};
+        movedTabs.forEach(tab => chrome.tabs.update(tab.id, { highlighted: true }))
+        chrome.windows.update(nextWindow.id, { focused: true })
+      })
+    })
+  })
+}
 
-const reload = function reload() {
-  const query = { lastFocusedWindow: true, highlighted: true, windowType: 'normal' };
+function reload () {
+  const query = { lastFocusedWindow: true, highlighted: true, windowType: 'normal' }
   chrome.tabs.query(query, (tabsToReload) => {
     tabsToReload.forEach((tab) => {
-      chrome.tabs.reload(tab.id);
-    });
-  });
-};
+      chrome.tabs.reload(tab.id)
+    })
+  })
+}
 
-const reverseSort = function reverseSort() {
+function reverseSort () {
   chrome.tabs.query({ lastFocusedWindow: true, windowType: 'normal' }, (tabs) => {
-    const tabIds = tabs.map(x => x.id).reverse();
-    chrome.tabs.move(tabIds, { index: -1 });
-  });
-};
+    const tabIds = tabs.map(x => x.id).reverse()
+    chrome.tabs.move(tabIds, { index: -1 })
+  })
+}
 
 // TODO: trim url eg. url.com#header1?
-const closeDuplicates = function closeDuplicates() {
+function closeDuplicates () {
   chrome.tabs.query({ lastFocusedWindow: true, windowType: 'normal' }, (tabs) => {
     const duplicateTabs = tabs.filter((tab, index, inputArray) => {
-      return inputArray.map(x => x.url).indexOf(tab.url) !== index;
-    });
+      return inputArray.map(x => x.url).indexOf(tab.url) !== index
+    })
 
     duplicateTabs.forEach((tab) => {
-      const notiQuery = { message: tab.url, type: 'basic', iconUrl: 'images/favicon.png', title: 'Closed duplicate tab' };
-      chrome.notifications.create(notiQuery);
-      chrome.tabs.remove(tab.id);
-    });
-  });
-};
-
+      const notiQuery = { message: tab.url, type: 'basic', iconUrl: 'images/favicon.png', title: 'Closed duplicate tab' }
+      chrome.notifications.create(notiQuery)
+      chrome.tabs.remove(tab.id)
+    })
+  })
+}
 
 // TODO: is this necessary?
 const stringToFunctionMap = {
@@ -268,30 +265,30 @@ const stringToFunctionMap = {
   moveSelectedTabsToNextWindow,
   reverseSort,
   extractSelectedTabs,
-  closeDuplicates,
-};
+  closeDuplicates
+}
 
-const handleMessages = function handleMessages(message, sender) {
-  console.info('Received message:', message);
-  console.info('Sender:', sender);
-
-  if (stringToFunctionMap) {
-    stringToFunctionMap[message.action]();
-  } else {
-    console.error('Unhandled message:', message);
-  }
-};
-
-const handleCommands = function handleCommands(command) {
-  console.info('Received command:', command);
+function handleMessages (message, sender) {
+  console.info('Received message:', message)
+  console.info('Sender:', sender)
 
   if (stringToFunctionMap) {
-    const func = stringToFunctionMap[command];
-    func();
+    stringToFunctionMap[message.action]()
   } else {
-    console.error('Unhandled message:', command);
+    console.error('Unhandled message:', message)
   }
-};
+}
 
-chrome.runtime.onMessage.addListener(handleMessages);
-chrome.commands.onCommand.addListener(handleCommands);
+function handleCommands (command) {
+  console.info('Received command:', command)
+
+  if (stringToFunctionMap) {
+    const func = stringToFunctionMap[command]
+    func()
+  } else {
+    console.error('Unhandled message:', command)
+  }
+}
+
+chrome.runtime.onMessage.addListener(handleMessages)
+chrome.commands.onCommand.addListener(handleCommands)
