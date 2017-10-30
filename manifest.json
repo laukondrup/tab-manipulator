@@ -13,15 +13,13 @@
   ],
   "offline_enabled": true,
   "background": {
-    "scripts": ["background.js"],
+    "scripts": [
+      "background.js"
+    ],
     "persistent": false
   },
   "manifest_version": 2,
   "commands": {
-    // "_execute_browser_action": {
-    //   "suggested_key": {
-    //   }
-    // },
     "reload": {
       "description": "Reloads all selected tabs"
     },
@@ -84,7 +82,7 @@
     "extractSelectedTabs": {
       "description": "Extracts all highlighted tabs"
     },
-    "closeDuplicates" : {
+    "closeDuplicates": {
       "description": "Close duplicates"
     }
   }

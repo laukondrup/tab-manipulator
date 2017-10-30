@@ -4,6 +4,14 @@
 
 ![Tab Manipulator](http://imgur.com/xDNF5go.png)
 
+## Installation Guide
+
+- Go to **chrome://extensions**
+- Enable developer mode
+- Either clone or download and extract the extension
+- Drag and drop the folder into extensions page or open it through 'Load unpacked extension'
+
+
 ## Features
 
 - [x] **Keyboard shortcuts** for each feature: go to **chrome://extensions/** at the bottom click **Keyboard shortcuts**
