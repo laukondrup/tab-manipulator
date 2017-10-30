@@ -6,7 +6,7 @@
 
 ## Features
 
-- [x] **Keyboard shortcuts** for each feature: go to **chrome://extensions/**, at the bottom click **Keyboard shortcuts**
+- [x] **Keyboard shortcuts** for each feature: go to **chrome://extensions/** at the bottom click **Keyboard shortcuts**
 - [x] **Close all but this tab**
 - [x] **Close duplicate tabs**
 - [x] **Close tabs left**
