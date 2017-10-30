@@ -6,7 +6,7 @@
 
 ## Features
 
-- [x] **Keyboard shortcuts** for each feature: go to [**extensions**](chrome://extensions/) at the bottom click **Keyboard shortcuts**
+- [x] **Keyboard shortcuts** for each feature: go to [extensions](chrome://extensions/) at the bottom click **Keyboard shortcuts**
 - [x] **Close all but this tab**
 - [x] **Close duplicate tabs**
 - [x] **Close tabs left**
@@ -17,8 +17,8 @@
 - [x] **Merge windows**: combines all chrome windows
 - [x] **Pin highlighted tabs**
 - [x] **Reload highlighted tabs**
-- [x] **Reverse sort**
-- [x] **Sort by number of domain open**: sorts tabs in ascending order by the number of tabs with the same domain open
+- [x] **Reverse sort**: shortcut `r`while the popup is open
+- [x] **Sort by number of domain open**: sorts tabs in ascending order by the number of tabs with the same domain open. `u`while the popup is open
 - [x] **Sort tabs by age**: shortcut `a` while the popup is open
 - [x] **Sort tabs by URL**: shortcut `u`while the popup is open
 - [x] **Split window**: moves the current tab and all tabs to the right of it to a new window

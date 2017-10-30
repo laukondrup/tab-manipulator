@@ -12,7 +12,9 @@ for (const key in actionElements) {
 }
 
 window.onkeyup = function (e) {
-  if (e.shiftKey || e.ctrlKey) { return }
+  if (e.shiftKey || e.ctrlKey) {
+    return
+  }
 
   if (e.key === 'a') {
     sendMessage('sortByAge')
