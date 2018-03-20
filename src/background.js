@@ -158,17 +158,6 @@ function duplicateTab () {
   })
 }
 
-function extractSelectedTabs () {
-  chrome.tabs.query({ highlighted: true, lastFocusedWindow: true, windowType: 'normal' }, (tabs) => {
-    chrome.windows.create({ tabId: tabs[0].id, focused: true, state: 'maximized' }, (newWindow) => {
-      const tabIds = tabs.map(t => t.id)
-        chrome.tabs.move(tabIds, { windowId: newWindow.id, index: -1 }, () => {
-          repinAndHighlightTabs(tabs)
-      })
-    })
-  })
-}
-
 // TODO
 function moveSelectedTabsToNextWindow () {
   const query = { lastFocusedWindow: true, highlighted: true, windowType: 'normal' }
@@ -232,7 +221,6 @@ const stringToFunctionMap = {
   togglePinTab,
   moveSelectedTabsToNextWindow,
   reverseSort,
-  extractSelectedTabs,
   closeDuplicates
 }
 

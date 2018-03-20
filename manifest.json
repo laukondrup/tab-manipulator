@@ -43,7 +43,12 @@
       "description": "Merge all tabs from all windows"
     },
     "extractDomain": {
-      "description": "Extract all tabs matching the current domain into one new window"
+      "description": "Extract all tabs matching the current domain into one new window",
+      "suggested_key": {
+        "default": "Shift+Alt+E",
+        "windows": "Shift+Alt+E",
+        "mac": "Shift+Alt+E"
+      }
     },
     "sortByNumDomain": {
       "description": "Sort tabs by the number of tabs for each domain"
@@ -54,17 +59,12 @@
         "windows": "Shift+Alt+S",
         "mac": "Shift+Alt+S"
       },
-      "description": "Split window from current tab"
+      "description": "Split window"
     },
     "closeTabsLeft": {
       "description": "Close all tabs to the left"
     },
     "closeTabsRight": {
-      "suggested_key": {
-        "default": "Shift+Alt+R",
-        "windows": "Shift+Alt+R",
-        "mac": "Shift+Alt+R"
-      },
       "description": "Close all tabs to the right"
     },
     "closeAllExceptCurrentTab": {
@@ -78,9 +78,6 @@
     },
     "reverseSort": {
       "description": "Reverse sort all tabs"
-    },
-    "extractSelectedTabs": {
-      "description": "Extracts all highlighted tabs"
     },
     "closeDuplicates": {
       "description": "Close duplicates"
