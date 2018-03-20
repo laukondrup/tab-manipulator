@@ -94,20 +94,20 @@ function mergeWindows () {
 }
 
 function extractDomain () {
-  chrome.tabs.query({ lastFocusedWindow: true, active: true }, (currentActiveTabs) => {
-    const currentTab = currentActiveTabs[0]
+  chrome.tabs.query({ lastFocusedWindow: true }, (currentTabs) => {
+    const currentTab = currentTabs.find(tab => tab.active)
     const baseUrl = getBaseUrl(currentTab.url)
-    // TODO: state maximized bad code, rather get from currentWindow state
+
+    const tabsToMove = currentTabs
+          .filter(tab => baseUrl === getBaseUrl(tab.url))
+
     chrome.windows.create({ tabId: currentTab.id, focused: true, state: 'maximized' }, (newWindow) => {
-      chrome.tabs.query({ currentWindow: false, pinned: false }, (tabs) => {
-        tabs.forEach((tab) => {
-          if (baseUrl === getBaseUrl(tab.url)) {
-            chrome.tabs.move(tab.id, { windowId: newWindow.id, index: -1 })
-          }
+        chrome.tabs.move(tabsToMove.map(tab => tab.id), { windowId: newWindow.id, index: -1 }, x => {
+          tabsToMove
+          .filter(tab => tab.pinned)
+          .forEach(tab => chrome.tabs.update(tab.id, { pinned: tab.pinned }))
         })
       })
-    })
-    chrome.tabs.update(currentTab.id, { pinned: currentTab.pinned })
   })
 }
 
