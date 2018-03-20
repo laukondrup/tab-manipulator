@@ -2,7 +2,7 @@
   "name": "tab-manipulator",
   "version": "1.0.0",
   "description": "My first chrome extension. The goal is to transition into being a full fledged tab/bookmark manager.",
-  "main": "background.js",
+  "main": "src/background.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,12 +17,6 @@
   },
   "homepage": "https://github.com/LK28/tab-manipulator#readme",
   "devDependencies": {
-    "@types/chrome": "0.0.46",
-    "eslint": "^3.19.0",
-    "eslint-config-standard": "^10.2.1",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-node": "^5.2.0",
-    "eslint-plugin-promise": "^3.6.0",
-    "eslint-plugin-standard": "^3.0.1"
+    "@types/chrome": "0.0.46"
   }
 }

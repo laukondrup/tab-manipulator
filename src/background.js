@@ -1,6 +1,7 @@
 // chrome.tabs.create({url:"popup.html"})
 
-// TODO: clean up a bit
+// TODO: clean up a bit, by finding a way to avoid all this nesting
+
 /**
 * Returns the URL with http(s):// and www removed
 */
@@ -240,7 +241,7 @@ function closeDuplicates () {
     })
 
     duplicateTabs.forEach((tab) => {
-      const notiQuery = { message: tab.url, type: 'basic', iconUrl: 'images/favicon.png', title: 'Closed duplicate tab' }
+      const notiQuery = { message: tab.url, type: 'basic', title: 'Closed duplicate tab' }
       chrome.notifications.create(notiQuery)
       chrome.tabs.remove(tab.id)
     })
@@ -283,8 +284,7 @@ function handleCommands (command) {
   console.info('Received command:', command)
 
   if (stringToFunctionMap) {
-    const func = stringToFunctionMap[command]
-    func()
+    stringToFunctionMap[command]()
   } else {
     console.error('Unhandled message:', command)
   }
