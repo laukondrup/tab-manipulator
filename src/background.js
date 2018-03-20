@@ -85,11 +85,16 @@ function sortByNumDomain () {
 }
 
 function mergeWindows () {
-  chrome.tabs.query({ lastFocusedWindow: true, active: true }, (currentTabs) => {
-    chrome.tabs.query({ lastFocusedWindow: false }, (otherWindowTabs) => {
-      const tabIds = otherWindowTabs.map(tab => tab.id)
-      chrome.tabs.move(tabIds, { windowId: currentTabs[0].windowId, index: -1 })
-    })
+  chrome.tabs.query({}, allTabs => {
+      const currentWindowId = allTabs[0].windowId
+      const tabsToMove = allTabs
+        .filter(tab => tab.windowId != currentWindowId)
+
+      chrome.tabs.move(tabsToMove.map(tab => tab.id), { windowId: currentWindowId, index: -1 }, x => {
+        tabsToMove
+          .filter(tab => tab.pinned)
+          .forEach(tab => chrome.tabs.update(tab.id, { pinned: true}))
+      })
   })
 }
 
@@ -104,8 +109,8 @@ function extractDomain () {
     chrome.windows.create({ tabId: currentTab.id, focused: true, state: 'maximized' }, (newWindow) => {
         chrome.tabs.move(tabsToMove.map(tab => tab.id), { windowId: newWindow.id, index: -1 }, x => {
           tabsToMove
-          .filter(tab => tab.pinned)
-          .forEach(tab => chrome.tabs.update(tab.id, { pinned: tab.pinned }))
+            .filter(tab => tab.pinned)
+            .forEach(tab => chrome.tabs.update(tab.id, { pinned: true }))
         })
       })
   })
