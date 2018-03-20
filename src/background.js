@@ -1,57 +1,38 @@
 // chrome.tabs.create({url:"popup.html"})
 
-// TODO: clean up a bit, by finding a way to avoid all this nesting
-
 /**
 * Returns the URL with http(s):// and www removed
 */
 function getDomain (url) {
-  let splitUrl = url.split('://')
-  if (splitUrl.length === 2) {
-    url = splitUrl[1]
-  }
-  splitUrl = url.split('www.')
-  if (splitUrl.length === 2) {
-    url = splitUrl[1]
-  }
-  return url
+  return url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "")
 }
 
-// TODO: clean up a bit
-function getBaseUrl (url) {
-  const baseUrl = getDomain(url).split('/')
-  // example.com
-  if (baseUrl.length > 1) {
-    return baseUrl[0]
-  }
-  return baseUrl
+function getBaseUrl(url) {
+  return getDomain(url).split('/')[0]
 }
 
 function sortByAge () {
   chrome.tabs.query({ lastFocusedWindow: true, pinned: false }, (tabs) => {
-    tabs.sort((a, b) => a.id - b.id)
+    const sortedTabIds = tabs
+      .sort((a, b) => a.id - b.id)
+      .map(tab => tab.id)
 
-    const tabIds = tabs.map(tab => tab.id)
-    chrome.tabs.move(tabIds, { index: -1 })
+    chrome.tabs.move(sortedTabIds, { index: -1 })
   })
 }
 
 function sortByUrl () {
   chrome.tabs.query({ lastFocusedWindow: true, pinned: false }, (tabs) => {
-    tabs.forEach((tab) => {
-      tab.url = getDomain(tab.url)
-    })
     tabs.sort((a, b) => {
-      if (a.url > b.url) {
+      if (getDomain(a.url) > getDomain(b.url)) {
         return 1
       }
-      if (a.url < b.url) {
+      if (getDomain(a.url) < getDomain(b.url)) {
         return -1
       }
       return 0
     })
-    const tabIds = tabs.map(tab => tab.id)
-    chrome.tabs.move(tabIds, { index: -1 })
+    chrome.tabs.move(tabs.map(tab => tab.id), { index: -1 })
   })
 }
 
@@ -90,10 +71,8 @@ function mergeWindows () {
       const tabsToMove = allTabs
         .filter(tab => tab.windowId != currentWindowId)
 
-      chrome.tabs.move(tabsToMove.map(tab => tab.id), { windowId: currentWindowId, index: -1 }, x => {
-        tabsToMove
-          .filter(tab => tab.pinned)
-          .forEach(tab => chrome.tabs.update(tab.id, { pinned: true}))
+      chrome.tabs.move(tabsToMove.map(tab => tab.id), { windowId: currentWindowId, index: -1 }, () => {
+        repinAndHighlightTabs(tabsToMove)
       })
   })
 }
@@ -107,107 +86,90 @@ function extractDomain () {
           .filter(tab => baseUrl === getBaseUrl(tab.url))
 
     chrome.windows.create({ tabId: currentTab.id, focused: true, state: 'maximized' }, (newWindow) => {
-        chrome.tabs.move(tabsToMove.map(tab => tab.id), { windowId: newWindow.id, index: -1 }, x => {
-          tabsToMove
-            .filter(tab => tab.pinned)
-            .forEach(tab => chrome.tabs.update(tab.id, { pinned: true }))
+        chrome.tabs.move(tabsToMove.map(tab => tab.id), { windowId: newWindow.id, index: -1 }, () => {
+          repinAndHighlightTabs(tabsToMove)
         })
       })
   })
 }
 
+/**
+ *  Splits the window to the right
+ */
 function splitWindow () {
-  chrome.tabs.query({ lastFocusedWindow: true, windowType: 'normal' }, (topWindowTabs) => {
-    const tabsToMove = []
-    let currentTabId
+  chrome.tabs.query({ lastFocusedWindow: true, windowType: 'normal' }, (tabs) => {
+    const currentTab = tabs.find(tab => tab.active)
+    const tabsToMove = tabs
+      .filter(tab => tab.index >= currentTab.index)
 
-    // TODO: ugly, but best way?
-    for (let i = topWindowTabs.length - 1; i > 0; i--) {
-      if (topWindowTabs[i].active) {
-        currentTabId = topWindowTabs[i].id
-        break
-      } else {
-        tabsToMove.push(topWindowTabs[i].id)
-      }
-    }
-
-    // TODO: support updating pinned tabs.
-    // Does chrome really not have a smart way to remember pinned status?
-    // How do I make this part wait for the upper part?
-    chrome.windows.create({ tabId: currentTabId, focused: true, state: 'maximized' }, (newWindow) => {
-      chrome.tabs.move(tabsToMove, { windowId: newWindow.id, index: -1 })
+    console.log(tabsToMove)
+    chrome.windows.create({ tabId: currentTab.id, focused: true, state: 'maximized' }, (newWindow) => {
+      chrome.tabs.move(tabsToMove.map(tab => tab.id), { windowId: newWindow.id, index: -1 }, () => {
+        repinAndHighlightTabs(tabsToMove)
+      })
     })
   })
 }
 
-// TODO: Consider how to handle pinned tabs
-function closeTabsLeft () {
-  chrome.tabs.query({ lastFocusedWindow: true }, (currentWindowTabs) => {
-    const tabIdsToClose = []
+function repinAndHighlightTabs(tabs) {
+  tabs
+    .forEach(tab => chrome.tabs.update(tab.id, { pinned: tab.pinned, highlighted: tab.highlighted }))
+}
 
-    for (let i = 0; i < currentWindowTabs.length; i++) {
-      if (currentWindowTabs[i].active) {
-        break
-      } else {
-        tabIdsToClose.push(currentWindowTabs[i].id)
-      }
-    }
+function closeTabsLeft () {
+  chrome.tabs.query({ lastFocusedWindow: true }, (tabs) => {
+    const currentTabIndex = tabs.find(tab => tab.active).index
+    const tabIdsToClose = tabs
+      .filter(tab => tab.index < currentTabIndex)
+      .filter(tab => !tab.pinned)
+      .map(tab => tab.id)
+
     chrome.tabs.remove(tabIdsToClose)
   })
 }
 
-// TODO: Consider how to handle pinned tabs
 function closeTabsRight () {
-  chrome.tabs.query({ lastFocusedWindow: true }, (currentWindowTabs) => {
-    const tabIdsToClose = []
+  chrome.tabs.query({ lastFocusedWindow: true }, (tabs) => {
+    const currentTabIndex = tabs.find(tab => tab.active).index
+    const tabIdsToClose = tabs
+      .filter(tab => tab.index > currentTabIndex)
+      .filter(tab => !tab.pinned)
+      .map(tab => tab.id)
 
-    for (let i = currentWindowTabs.length - 1; i > 0; i--) {
-      if (currentWindowTabs[i].active) {
-        break
-      } else {
-        tabIdsToClose.push(currentWindowTabs[i].id)
-      }
-    }
     chrome.tabs.remove(tabIdsToClose)
   })
 }
 
 function closeAllExceptCurrentTab () {
-  chrome.tabs.query({ lastFocusedWindow: true, active: false, windowType: 'normal' }, (tabsToClose) => {
-    const tabIdsToClose = tabsToClose.map(t => t.id)
-    chrome.tabs.remove(tabIdsToClose)
+  chrome.tabs.query({ lastFocusedWindow: true, active: false, windowType: 'normal' }, (tabs) => {
+    chrome.tabs.remove(tabs.map(tab => tab.id))
   })
 }
 
 function togglePinTab () {
-  chrome.tabs.query({ lastFocusedWindow: true, highlighted: true, windowType: 'normal' }, (currentTabs) => {
-    const newPinnedStatus = !currentTabs[0].pinned
-    currentTabs.forEach(tab => chrome.tabs.update(tab.id, { pinned: newPinnedStatus }))
+  chrome.tabs.query({ lastFocusedWindow: true, highlighted: true, windowType: 'normal' }, (tabs) => {
+    tabs.forEach(tab => chrome.tabs.update(tab.id, { pinned: !tabs[0].pinned }))
   })
 }
 
 function duplicateTab () {
   chrome.tabs.query({ lastFocusedWindow: true, highlighted: true }, (currentTabs) => {
-    // TODO: Consider if it's better to use c.t.create, with active: false
     currentTabs.forEach(tab => chrome.tabs.create({ url: tab.url, active: false, pinned: tab.pinned, index: tab.index + 1 }))
   })
 }
 
-// TODO: remember pinned - and highlighted?
 function extractSelectedTabs () {
-  chrome.tabs.query({ highlighted: true, lastFocusedWindow: true, windowType: 'normal' }, (tabsToBeExtracted) => {
-    chrome.windows.create({ tabId: tabsToBeExtracted[0].id, focused: true, state: 'maximized' }, (newWindow) => {
-      // tabsToBeExtracted = tabsToBeExtracted.shift();
-      tabsToBeExtracted.splice(0, 1)
-      tabsToBeExtracted.forEach((tab) => {
-        chrome.tabs.move(tab.id, { windowId: newWindow.id, index: -1 }, () => {
-          chrome.tabs.update({ highlighted: tab.highlighted, pinned: tab.pinned })
-        })
+  chrome.tabs.query({ highlighted: true, lastFocusedWindow: true, windowType: 'normal' }, (tabs) => {
+    chrome.windows.create({ tabId: tabs[0].id, focused: true, state: 'maximized' }, (newWindow) => {
+      const tabIds = tabs.map(t => t.id)
+        chrome.tabs.move(tabIds, { windowId: newWindow.id, index: -1 }, () => {
+          repinAndHighlightTabs(tabs)
       })
     })
   })
 }
 
+// TODO
 function moveSelectedTabsToNextWindow () {
   const query = { lastFocusedWindow: true, highlighted: true, windowType: 'normal' }
   chrome.tabs.query(query, (tabsToMove) => {
@@ -233,8 +195,8 @@ function reload () {
 
 function reverseSort () {
   chrome.tabs.query({ lastFocusedWindow: true, windowType: 'normal' }, (tabs) => {
-    const tabIds = tabs.map(x => x.id).reverse()
-    chrome.tabs.move(tabIds, { index: -1 })
+    const reversedTabIds = tabs.map(x => x.id).reverse()
+    chrome.tabs.move(reversedTabIds, { index: -1 })
   })
 }
 
@@ -246,8 +208,8 @@ function closeDuplicates () {
     })
 
     duplicateTabs.forEach((tab) => {
-      const notiQuery = { message: tab.url, type: 'basic', title: 'Closed duplicate tab' }
-      chrome.notifications.create(notiQuery)
+      const query = { message: tab.url, type: 'basic', title: 'Closed duplicate tab' }
+      chrome.notifications.create(query)
       chrome.tabs.remove(tab.id)
     })
   })
