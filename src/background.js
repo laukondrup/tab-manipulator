@@ -183,7 +183,7 @@ function reload () {
 }
 
 function reverseSort () {
-  chrome.tabs.query({ lastFocusedWindow: true, windowType: 'normal' }, (tabs) => {
+  chrome.tabs.query({ lastFocusedWindow: true, windowType: 'normal', pinned: false }, (tabs) => {
     const reversedTabIds = tabs.map(x => x.id).reverse()
     chrome.tabs.move(reversedTabIds, { index: -1 })
   })
