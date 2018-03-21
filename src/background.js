@@ -1,5 +1,7 @@
 // chrome.tabs.create({url:"popup.html"})
 
+let previousTab = -1;
+
 /**
 * Returns the URL with http(s):// and www removed
 */
@@ -204,6 +206,10 @@ function closeDuplicates () {
   })
 }
 
+function activatePreviousTab() {
+
+}
+
 // TODO: is this necessary?
 const stringToFunctionMap = {
   sortByAge,
@@ -221,7 +227,8 @@ const stringToFunctionMap = {
   togglePinTab,
   moveSelectedTabsToNextWindow,
   reverseSort,
-  closeDuplicates
+  closeDuplicates,
+  activatePreviousTab
 }
 
 function handleMessages (message, sender) {
@@ -247,3 +254,27 @@ function handleCommands (command) {
 
 chrome.runtime.onMessage.addListener(handleMessages)
 chrome.commands.onCommand.addListener(handleCommands)
+
+// TODO: Activate previous tab
+
+chrome.tabs.onActivated.addListener(activeInfo => {
+  console.log("Activated tab:", activeInfo.tabId);
+
+})
+
+chrome.tabs.onRemoved.addListener((tabId, removeInfo) => {
+  console.log('Closed tab:', tabId);
+})
+
+chrome.windows.onFocusChanged.addListener(windowId => {
+  console.log('Changed focus to window:', windowId);
+
+})
+
+chrome.tabs.onRemoved.addListener((tabId, removeInfo) => {
+  console.log('Removed tab:', tabId);
+
+})
+
+// chrome.windows.onRemoved
+// chrome.tabs.onReplaced()

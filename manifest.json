@@ -3,7 +3,7 @@
   "description": "Sort tabs, manage windows and close tabs the way most editors do.",
   "version": "1.0",
   "author": "Lau Kondrup",
-  "homepage_url": "https://github.com/LK28/tab-manipulator",
+  "homepage_url": "https://github.com/laukondrup/tab-manipulator",
   "browser_action": {
     "default_popup": "src/popup.html"
   },
@@ -52,6 +52,9 @@
     },
     "sortByNumDomain": {
       "description": "Sort tabs by the number of tabs for each domain"
+    },
+    "activatePreviousTab": {
+      "description": "Activate the previous tab"
     },
     "splitWindow": {
       "suggested_key": {
