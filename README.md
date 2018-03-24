@@ -11,9 +11,6 @@
 - Either clone or download and extract the extension
 - Drag and drop the folder into extensions page or open it through 'Load unpacked extension'
 
-# PR Test
-- This is a feature
-- Whoops, forgot this
 
 ## Features
 
