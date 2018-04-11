@@ -1,12 +1,3 @@
-a {
-  text-decoration: none;
-  width: 160px;
-}
-
-a:focus {
-  outline: none;
-}
-
 body {
   background: #224862;
   color: #ffffff;
@@ -20,21 +11,28 @@ h1 {
   text-align: center
 }
 
-.btn {
+button {
+  min-width: 200px;
+  width: 80%;
+  border: 1px solid black;
   background: #007acc;
   color: #ffffff;
-  font-size: 1.28em;
+  font-size: 1.3em;
   padding: 10px 20px;
   display: block;
-  margin: 10px;
+  margin: 5px;
+}
+
+button:focus {
+  outline: none;
+}
+
+button:hover {
+  cursor: pointer;
 }
 
 .incomplete {
   background: #1e2931 !important;
-}
-
-.btn:hover {
-  cursor: pointer;
 }
 
 .sort {
@@ -57,39 +55,3 @@ h1 {
 .hidden {
   display: none;
 }
-
-
-/*#sortByAge {
-  background: #007acc;
-}
-
-#sortByUrl {
-    background: #82add0;
-}*/
-
-/*#mergeWindows {
-    background: #ff5370;
-}
-
-#extractDomain {
-    background: #deae34;
-}*/
-/*
-#sortByNumDomain {
-    background: #22b086;
-}*/
-
-/*#splitWindow {
-  background: #4f98cc;
-}*/
-/*
-#closeTabsLeft {
-  background: #8749a7;
-}
-#closeTabsRight {
-  background:
-}
-#closeAllExceptCurrentTab {
-  background:
-}*/
-
