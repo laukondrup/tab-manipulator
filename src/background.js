@@ -1,6 +1,7 @@
 // chrome.tabs.create({url:"popup.html"})
 
-let previousTab = -1;
+let currentTabId;
+let previousTabId;
 
 /**
 * Returns the URL with http(s):// and www removed
@@ -207,7 +208,7 @@ function closeDuplicates () {
 }
 
 function activatePreviousTab() {
-
+  chrome.tabs.update(previousTabId, { active: true })
 }
 
 // TODO: is this necessary?
@@ -255,26 +256,26 @@ function handleCommands (command) {
 chrome.runtime.onMessage.addListener(handleMessages)
 chrome.commands.onCommand.addListener(handleCommands)
 
-// TODO: Activate previous tab
 
 chrome.tabs.onActivated.addListener(activeInfo => {
   console.log("Activated tab:", activeInfo.tabId);
-
+  previousTabId = currentTabId;
+  currentTabId = activeInfo.tabId;
 })
 
-chrome.tabs.onRemoved.addListener((tabId, removeInfo) => {
-  console.log('Closed tab:', tabId);
-})
+// chrome.tabs.onRemoved.addListener((tabId, removeInfo) => {
+//   console.log('Closed tab:', tabId);
+// })
 
-chrome.windows.onFocusChanged.addListener(windowId => {
-  console.log('Changed focus to window:', windowId);
+// chrome.windows.onFocusChanged.addListener(windowId => {
+//   console.log('Changed focus to window:', windowId);
 
-})
+// })
 
-chrome.tabs.onRemoved.addListener((tabId, removeInfo) => {
-  console.log('Removed tab:', tabId);
+// chrome.tabs.onRemoved.addListener((tabId, removeInfo) => {
+//   console.log('Removed tab:', tabId);
 
-})
+// })
 
 // chrome.windows.onRemoved
 // chrome.tabs.onReplaced()
