@@ -12,10 +12,14 @@
 - Either clone or download and extract the extension
 - Drag and drop the folder into extensions page or open it through 'Load unpacked extension'
 
+## Setup Keyboard Shortcuts
+- Go to **chrome://extensions/**
+- Click on the hamburger menu in the top-left
+- Click **Keyboard shortcuts**
 
 ## Features
 
-- [x] **Keyboard shortcuts** for each feature: go to **chrome://extensions/** at the bottom click **Keyboard shortcuts**
+- [x] **Keyboard shortcuts** for each feature
 - [x] **Duplicate selected tabs**
 - [x] **Toggle pin selected tabs**
 - [x] **Reload selected tabs**
