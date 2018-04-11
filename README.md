@@ -2,7 +2,8 @@
 
 > A Chrome Extension that sorts tabs, manages windows and closes tabs the way most editors do.
 
-![Tab Manipulator](http://imgur.com/xDNF5go.png)
+![popup](popup.png)
+![shortcuts](shortcuts.png)
 
 ## Installation Guide
 
