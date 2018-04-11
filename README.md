@@ -30,6 +30,7 @@
 - [x] **Sort tabs by age**: shortcut `a` while the popup is open
 - [x] **Sort tabs by URL**: shortcut `u`while the popup is open
 - [x] **Reverse sort**: shortcut `r`while the popup is open
+- [x] **Activate previous tab**
 
 
 
