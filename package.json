@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/LK28/tab-manipulator#readme",
   "devDependencies": {
-    "@types/chrome": "^0.0.133"
+    "@types/chrome": "^0.0.141"
   }
 }
