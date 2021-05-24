@@ -49,38 +49,58 @@ function sortByUrl() {
 function sortByNumDomain() {
   chrome.tabs.query(
     {
-      groupId: -1,
       lastFocusedWindow: true,
       pinned: false,
       windowType: 'normal',
     },
     tabs => {
-      const domainTabIds = {};
-      tabs.forEach(tab => {
-        tab.domain = getBaseUrl(tab.url);
-        domainTabIds[tab.domain] = [];
-      });
+      // const domainTabIds = {};
+      const groupIds = Array.from(new Set(tabs.map(x => x.groupId)))
+        .sort()
+        .reverse();
 
-      tabs.forEach(tab => {
-        const tabIds = domainTabIds[tab.domain];
-        tabIds.push(tab.id);
-      });
+      for (const groupId of groupIds) {
+        const groupTabs = tabs.filter(x => x.groupId === groupId);
+        const beginIndex =
+          groupId === -1 ? -1 : Math.min(...groupTabs.map(x => x.index));
 
-      const tabIds = [];
+        const sortedTabs = [...groupTabs].sort((a, b) => {
+          if (getBaseUrl(a.url) > getBaseUrl(b.url)) return 1;
+          if (getBaseUrl(a.url) < getBaseUrl(b.url)) return -1;
+          return 0;
 
-      const sortedDomains = Object.keys(domainTabIds).sort(
-        (a, b) => domainTabIds[a].length - domainTabIds[b].length
-      );
+          // TODO: sort by num domain again
+        });
+        const sortedTabIds = sortedTabs.map(x => x.id);
 
-      for (const key in sortedDomains) {
-        const partTabIds = domainTabIds[sortedDomains[key]];
-
-        for (const key in partTabIds) {
-          tabIds.push(partTabIds[key]);
-        }
+        chrome.tabs.move(sortedTabIds, { index: beginIndex });
       }
 
-      chrome.tabs.move(tabIds, { index: -1 });
+      // tabs.forEach(tab => {
+      //   tab.domain = getBaseUrl(tab.url);
+      //   domainTabIds[`${tab.groupId}-${tab.domain}`] = [];
+      // });
+
+      // tabs.forEach(tab => {
+      //   const tabIds = domainTabIds[`${tab.groupId}-${tab.domain}`];
+      //   tabIds.push(tab.id);
+      // });
+
+      // const tabIds = [];
+
+      // const sortedDomains = Object.keys(domainTabIds).sort(
+      //   (a, b) => domainTabIds[a].length - domainTabIds[b].length
+      // );
+
+      // for (const key in sortedDomains) {
+      //   const partTabIds = domainTabIds[sortedDomains[key]];
+
+      //   for (const key in partTabIds) {
+      //     tabIds.push(partTabIds[key]);
+      //   }
+      // }
+
+      // chrome.tabs.move(tabIds, { index: -1 });
     }
   );
 }
