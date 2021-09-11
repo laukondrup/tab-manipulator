@@ -1,3 +1,6 @@
+//@ts-check
+// docs: https://developer.chrome.com/docs/extensions/reference/tabs/#toc
+
 // chrome.tabs.create({url:"popup.html"})
 
 let currentTabId;
@@ -63,6 +66,15 @@ function sortByNumDomain() {
         const groupTabs = tabs.filter(x => x.groupId === groupId);
         const beginIndex =
           groupId === -1 ? -1 : Math.min(...groupTabs.map(x => x.index));
+
+        let domainDict = {};
+        for (const tab of groupTabs) {
+          if (!domainDict[getBaseUrl(tab.url)]) {
+            domainDict[getBaseUrl(tab.url)] = [];
+          }
+          domainDict[getBaseUrl(tab.url)].push(tab);
+        }
+        console.log('🚀 ~ domainDict', domainDict);
 
         const sortedTabs = [...groupTabs].sort((a, b) => {
           if (getBaseUrl(a.url) > getBaseUrl(b.url)) return 1;
@@ -230,57 +242,54 @@ function duplicateTab() {
   chrome.tabs.query(
     { lastFocusedWindow: true, highlighted: true },
     currentTabs => {
-      currentTabs.forEach(tab =>
-        chrome.tabs.create({
-          url: tab.url,
-          active: false,
-          pinned: tab.pinned,
-          index: tab.index + 1,
-        })
-      );
+      currentTabs.forEach(tab => chrome.tabs.duplicate(tab.id));
     }
   );
 }
 
 // TODO
 function moveSelectedTabsToNextWindow() {
-  const query = {
-    lastFocusedWindow: true,
-    highlighted: true,
-    windowType: 'normal',
-  };
-  chrome.tabs.query(query, tabsToMove => {
-    chrome.windows.getAll(
-      { populate: false, windowTypes: ['normal'] },
-      allWindows => {
-        const nextWindow = allWindows.find(window => !window.focused);
-        const tabIdsToMove = tabsToMove.map(tab => tab.id);
-        chrome.tabs.move(
-          tabIdsToMove,
-          { windowId: nextWindow.id, index: -1 },
-          movedTabs => {
-            movedTabs.forEach(tab =>
-              chrome.tabs.update(tab.id, { highlighted: true })
-            );
-            chrome.windows.update(nextWindow.id, { focused: true });
-          }
-        );
-      }
-    );
-  });
+  chrome.tabs.query(
+    {
+      lastFocusedWindow: true,
+      highlighted: true,
+      windowType: 'normal',
+    },
+    tabsToMove => {
+      chrome.windows.getAll(
+        { populate: false, windowTypes: ['normal'] },
+        allWindows => {
+          const nextWindow = allWindows.find(window => !window.focused);
+          const tabIdsToMove = tabsToMove.map(tab => tab.id);
+          chrome.tabs.move(
+            tabIdsToMove,
+            { windowId: nextWindow.id, index: -1 },
+            movedTabs => {
+              movedTabs.forEach(tab =>
+                chrome.tabs.update(tab.id, { highlighted: true })
+              );
+              chrome.windows.update(nextWindow.id, { focused: true });
+            }
+          );
+        }
+      );
+    }
+  );
 }
 
 function reload() {
-  const query = {
-    lastFocusedWindow: true,
-    highlighted: true,
-    windowType: 'normal',
-  };
-  chrome.tabs.query(query, tabsToReload => {
-    tabsToReload.forEach(tab => {
-      chrome.tabs.reload(tab.id);
-    });
-  });
+  chrome.tabs.query(
+    {
+      lastFocusedWindow: true,
+      highlighted: true,
+      windowType: 'normal',
+    },
+    tabsToReload => {
+      tabsToReload.forEach(tab => {
+        chrome.tabs.reload(tab.id);
+      });
+    }
+  );
 }
 
 function reverseSort() {
@@ -316,6 +325,23 @@ function activatePreviousTab() {
   chrome.tabs.update(previousTabId, { active: true });
 }
 
+function groupTab() {
+  chrome.tabs.query(
+    {
+      lastFocusedWindow: true,
+      highlighted: true,
+    },
+    tabs => {
+      const isGrouped = tabs.some(x => x.groupId !== -1);
+      if (isGrouped) {
+        chrome.tabs.ungroup(tabs.map(x => x.id));
+      } else {
+        chrome.tabs.group({ tabIds: tabs.map(x => x.id) });
+      }
+    }
+  );
+}
+
 // TODO: is this necessary?
 const stringToFunctionMap = {
   sortByAge,
@@ -335,6 +361,7 @@ const stringToFunctionMap = {
   reverseSort,
   closeDuplicates,
   activatePreviousTab,
+  groupTab,
 };
 
 function handleMessages(message, sender) {

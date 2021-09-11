@@ -7,15 +7,10 @@
   "browser_action": {
     "default_popup": "src/popup.html"
   },
-  "permissions": [
-    "tabs",
-    "notifications"
-  ],
+  "permissions": ["tabs", "notifications"],
   "offline_enabled": true,
   "background": {
-    "scripts": [
-      "src/background.js"
-    ],
+    "scripts": ["src/background.js"],
     "persistent": false
   },
   "manifest_version": 2,
@@ -75,6 +70,9 @@
     },
     "duplicateTab": {
       "description": "Duplicate all highlighted tabs"
+    },
+    "groupTab": {
+      "description": "Toggles grouping of the current or selected tabs"
     },
     "togglePinTab": {
       "description": "Toggle pin highlighted tabs"

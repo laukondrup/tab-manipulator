@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LK28/tab-manipulator.git"
+    "url": "git+https://github.com/laukondrup/tab-manipulator.git"
   },
   "author": "Lau Kondrup",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/LK28/tab-manipulator/issues"
+    "url": "https://github.com/laukondrup/tab-manipulator/issues"
   },
-  "homepage": "https://github.com/LK28/tab-manipulator#readme",
+  "homepage": "https://github.com/laukondrup/tab-manipulator#readme",
   "devDependencies": {
-    "@types/chrome": "^0.0.141"
+    "@types/chrome": "^0.0.157"
   }
 }
