@@ -65,6 +65,9 @@
     "closeTabsRight": {
       "description": "Close all tabs to the right"
     },
+    "newTabInGroup": {
+      "description": "Creates a new tab in the current group"
+    },
     "closeAllExceptCurrentTab": {
       "description": "Close all except the current tab"
     },

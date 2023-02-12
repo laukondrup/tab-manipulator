@@ -6,6 +6,20 @@
 let currentTabId;
 let previousTabId;
 
+function newTabInGroup() {
+  chrome.tabs.query({ active: true }, activeTabs => {
+    chrome.tabs.create(
+      { openerTabId: activeTabs[0].id, index: activeTabs[0].index + 1 },
+      newTab => {
+        chrome.tabs.group({
+          groupId: activeTabs[0].groupId,
+          tabIds: newTab.id,
+        });
+      }
+    );
+  });
+}
+
 /**
  * Returns the URL with http(s):// and www removed
  */
@@ -362,6 +376,7 @@ const stringToFunctionMap = {
   closeDuplicates,
   activatePreviousTab,
   groupTab,
+  newTabInGroup,
 };
 
 function handleMessages(message, sender) {

@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/laukondrup/tab-manipulator#readme",
   "devDependencies": {
-    "@types/chrome": "^0.0.157"
+    "@types/chrome": "^0.0.212"
   }
 }
